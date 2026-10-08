@@ -1,0 +1,1052 @@
+<!doctype html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>内经时间</title>
+<meta name="description" content="按《黄帝内经·素问》看此刻：时辰、四时、月相、二十四节气、干支月与四季，配原文、白话和养生提示。">
+<meta name="theme-color" content="#F3F2EE">
+<meta property="og:type" content="website">
+<meta property="og:title" content="内经时间">
+<meta property="og:description" content="按《黄帝内经·素问》看此刻：时辰、月相、节气、四季，配原文与养生提示。">
+<meta property="og:image" content="og.png">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='30' fill='%23F3F2EE'/%3E%3Ccircle cx='32' cy='32' r='24' fill='none' stroke='%23A9A79F' stroke-width='5'/%3E%3Ccircle cx='32' cy='32' r='13' fill='none' stroke='%232B2B2B' stroke-width='6'/%3E%3Ccircle cx='32' cy='8' r='6' fill='%23FFC61A' stroke='%23fff' stroke-width='2'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="icon-180.png">
+<style>
+/* 没有宋体的设备（多数安卓、Windows）用这套随页附带的思源宋体子集；苹果设备直接用系统宋体，不会下载 */
+@font-face{font-family:"NJ Serif"; src:url("fonts/serif-regular.woff2") format("woff2"); font-weight:100 500; font-display:swap}
+@font-face{font-family:"NJ Serif"; src:url("fonts/serif-bold.woff2") format("woff2"); font-weight:600 900; font-display:swap}
+:root{
+  --serif:"Songti SC","STSong","NJ Serif","Source Han Serif SC","Noto Serif CJK SC","Noto Serif SC",serif;
+  --paper:#F3F2EE; --ink:#1D1E1C; --muted:#6B6C66; --faint:#A2A29B; --label:#74756F;
+  --band:#E3E1DB; --line:#D3D1CA; --card:#FBFAF7; --rule:rgba(29,30,28,.16);
+  --gold:#FFC61A; --red:#AE3424; --off:#2B6A45; --work:#8A6B3D;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--serif); font-size:16px; line-height:1.7}
+button,select{font:inherit; color:inherit; background:none; border:0; padding:0; cursor:pointer}
+:focus-visible{outline:2px solid var(--ink); outline-offset:3px; border-radius:3px}
+.page{max-width:1480px; margin:0 auto; padding:clamp(16px,2.6vw,44px); padding-bottom:max(clamp(16px,2.6vw,44px),env(safe-area-inset-bottom))}
+.link{border-bottom:1px solid currentColor; color:var(--ink)}
+.link:hover{color:var(--red)}
+.nav{width:32px; height:32px; border-radius:50%; font-size:20px; line-height:1; display:grid; place-items:center; flex:none}
+.nav:hover{background:var(--band)}
+.h{margin:0; font-size:20px; font-weight:900; letter-spacing:.14em}
+
+/* ---------- 页首 ---------- */
+.top{display:flex; justify-content:space-between; align-items:flex-end; gap:14px 28px; flex-wrap:wrap; margin-bottom:clamp(14px,2vw,26px)}
+.title{margin:0; font-size:clamp(26px,2.4vw,34px); font-weight:900; letter-spacing:.1em; line-height:1.1}
+.clock{display:flex; align-items:flex-end; gap:14px}
+.clock-info{margin:0; font-size:15px; line-height:1.55; text-align:right; letter-spacing:.04em; align-self:center}
+.clock-info b{font-weight:700}
+.clock-time{font-size:clamp(40px,4vw,58px); font-weight:700; line-height:.9; font-variant-numeric:tabular-nums}
+
+/* ---------- 版框 ---------- */
+.hero{position:relative; display:grid; grid-template-columns:clamp(150px,13vw,210px) minmax(0,1fr) clamp(260px,23vw,340px);
+  grid-template-areas:"bar bar bar" "term dial quote"; border:2px solid rgba(29,30,28,.72); padding:clamp(14px,1.6vw,24px)}
+.hero::before{content:""; position:absolute; inset:5px; border:1px solid rgba(29,30,28,.38); pointer-events:none}
+
+/* 日期栏 + 日期带 */
+.datebar{grid-area:bar; position:relative; z-index:1; padding:0 4px 10px; margin-bottom:12px; border-bottom:1px solid var(--rule); min-width:0}
+.strip-wrap{display:flex; align-items:center; gap:4px}
+.strip{flex:1; display:flex; gap:4px; overflow-x:auto; scroll-behavior:smooth; scrollbar-width:none; padding:2px}
+.strip::-webkit-scrollbar{display:none}
+.sd{position:relative; flex:none; width:58px; padding:5px 2px 6px; border-radius:6px; display:flex; flex-direction:column; align-items:center; gap:1px; background:var(--card)}
+.sd:hover{background:var(--band)}
+.sd .w{font-size:11px; color:var(--muted); line-height:1.2}
+.sd .n{font-size:18px; line-height:1.2; font-variant-numeric:tabular-nums}
+.sd .sub{font-size:10.5px; color:var(--muted); line-height:1.3; white-space:nowrap}
+.sd .sub.term{color:var(--red); font-weight:700}
+.sd svg{width:13px; height:13px; margin-top:2px}
+.sd .tag{position:absolute; top:3px; right:4px; font-size:9.5px; font-style:normal; line-height:1.3}
+.tag.off{color:var(--off)} .tag.work{color:var(--work)}
+.sd.today{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.sd.sel{background:var(--ink); color:var(--paper)}
+.sd.sel .w,.sd.sel .sub,.sd.sel .tag{color:var(--paper)}
+
+/* 左：节气竖排 */
+.term-col{grid-area:term; border-right:1px solid var(--rule); padding:8px clamp(10px,1.2vw,20px) 8px 4px; display:flex; justify-content:flex-end}
+.vert{writing-mode:vertical-rl; -webkit-writing-mode:vertical-rl}
+.term-v{display:flex; gap:clamp(8px,1vw,16px); height:min(560px,64vh)}
+.term-name{margin:0; font-size:clamp(76px,7.6vw,118px); font-weight:900; line-height:1.04; letter-spacing:.04em}
+.term-meta{margin:0; font-size:15px; letter-spacing:.24em; color:var(--muted); line-height:1.7}
+.term-meta b{color:var(--red); font-weight:700}
+
+/* 右：原文竖排 + 白话 + 养生 */
+.quote-col{grid-area:quote; border-left:1px solid var(--rule); padding:8px 4px 8px clamp(14px,1.4vw,24px); display:flex; flex-direction:column; min-width:0}
+.q-head{display:flex; align-items:baseline; gap:10px; font-size:14px; color:var(--muted); letter-spacing:.1em; margin-bottom:12px; flex-wrap:wrap}
+.q-head b{color:var(--ink); font-size:16px; letter-spacing:.12em}
+.q-head .hint{font-size:12px; letter-spacing:.04em; color:var(--faint)}
+.q-v{height:min(320px,38vh); align-self:flex-end; max-width:100%; overflow-x:auto; overflow-y:hidden}
+.q-v p{margin:0; font-size:clamp(21px,1.7vw,25px); font-weight:700; line-height:1.85; letter-spacing:.14em}
+.q-v cite{display:block; font-style:normal; font-size:13px; color:var(--muted); letter-spacing:.14em; text-align:end; margin-block-start:10px}
+.q-plain{margin:14px 0 0; font-size:14.5px; line-height:1.9; border-top:1px solid var(--rule); padding-top:12px}
+.q-more{margin:8px 0 0; font-size:13.5px; line-height:1.85; color:var(--ink)}
+.q-more cite{font-style:normal; color:var(--muted); font-size:12.5px; margin-left:.4em}
+.q-full{margin:8px 0 0; font-size:13px; line-height:1.9; color:var(--faint)}
+.q-full mark{background:none; color:var(--ink); box-shadow:inset 0 -.35em 0 rgba(255,198,26,.45)}
+.q-tip{margin:14px 0 0; padding:10px 12px; background:var(--card); border-radius:6px; font-size:14px; line-height:1.85}
+.q-tip b{display:block; font-size:13px; letter-spacing:.2em; margin-bottom:2px}
+.q-tip small{display:block; color:var(--faint); font-size:11.5px; margin-top:4px; letter-spacing:.02em}
+.q-note{margin:8px 0 0; font-size:12.5px; line-height:1.8; color:var(--muted)}
+.q-more:empty,.q-full:empty,.q-note:empty{display:none}
+
+/* ---------- 圆环 ---------- */
+.dial-col{grid-area:dial; min-width:0; display:flex; flex-direction:column; align-items:center; padding:8px clamp(8px,1.4vw,24px) 0}
+.dial-top{align-self:stretch; display:flex; justify-content:flex-end; min-height:28px; margin-bottom:4px}
+.today-btn{font-size:16px; letter-spacing:.14em; padding:0 2px 3px; border-bottom:2px solid var(--ink)}
+.today-btn:hover{color:var(--red); border-color:var(--red)}
+.today-btn.is-today{color:var(--muted); border-color:var(--line)}
+.orrery{position:relative; width:100%; max-width:720px; perspective:1700px; touch-action:pan-y; -webkit-user-select:none; user-select:none; --u:.9}
+.orrery::before{content:""; display:block; padding-top:100%}                 /* 正方形，不依赖 aspect-ratio */
+.plane{position:absolute; inset:0; transform-style:flat}
+.layer{position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none; transition:opacity .3s}
+.seg{pointer-events:visibleStroke; cursor:pointer; transition:opacity .25s}
+.orrery.moving .seg{cursor:grab}
+.orrery.dragging .seg{cursor:grabbing}
+.gap{stroke:var(--paper); stroke-width:2.2; pointer-events:none}
+.tk{stroke:var(--ink); stroke-opacity:.28; stroke-width:1; pointer-events:none}
+/* 选中某一格：其余全部半透明 */
+.orrery.has-sel .seg:not(.on){opacity:.22}
+.orrery.has-sel .lab:not(.on){opacity:.22}
+/* 看别的日子：时辰和四时没有意义，变浅 */
+.orrery.notime .L-sc,.orrery.notime .L-q{opacity:.35}
+.orrery.notime .mkr.r-sc,.orrery.notime .mkr.r-q{display:none}
+.orrery.notime .lab.r-sc,.orrery.notime .lab.r-q{opacity:.35}
+.orrery.has-sel.notime .lab.r-sc.on,.orrery.has-sel.notime .lab.r-q.on{opacity:1}
+
+/* 浮在圈上、始终正着的字 */
+.labels{position:absolute; inset:0; pointer-events:none; z-index:2}
+.lab{position:absolute; left:0; top:0; white-space:nowrap; color:var(--label); line-height:1; will-change:transform; transition:opacity .25s; font-size:calc(var(--u)*14px)}
+.lab.r-sc{font-size:calc(var(--u)*15px)}
+.lab.r-q{font-size:calc(var(--u)*14px)}
+.lab.r-t{font-size:calc(var(--u)*14.5px)}
+.lab.r-mo{font-size:calc(var(--u)*15px)}
+.lab.r-s{font-size:calc(var(--u)*27px)}
+.lab.badge{font-size:calc(var(--u)*10.5px); width:calc(var(--u)*19px); height:calc(var(--u)*19px); border-radius:50%; background:#EEEDE9; display:grid; place-items:center; color:var(--muted); font-variant-numeric:tabular-nums}
+.lab.halo{text-shadow:0 0 3px var(--paper),0 0 3px var(--paper),0 0 2px var(--paper)}
+.lab.moon{width:calc(var(--u)*22px); height:calc(var(--u)*22px)}
+/* 黄色定位点：和字一样始终正着 */
+.lab.mkr{z-index:3000 !important}
+.mkr .dot{display:block; width:calc(var(--u)*13px); height:calc(var(--u)*13px); border-radius:50%; background:var(--gold); border:calc(var(--u)*2px) solid #fff; box-shadow:0 0 calc(var(--u)*10px) calc(var(--u)*3px) rgba(255,198,26,.65)}
+.mkr svg{display:block; width:calc(var(--u)*26px); height:calc(var(--u)*26px); overflow:visible; filter:drop-shadow(0 0 4px rgba(255,198,26,.8))}
+.lab.moon svg{display:block; width:100%; height:100%; overflow:visible}
+.lab.moon.today svg{filter:drop-shadow(0 0 5px rgba(255,198,26,.95))}
+
+/* 中心的人 */
+.person{position:absolute; left:50%; top:50%; width:13%; height:13%; transform:translate(-50%,-50%); pointer-events:none}
+.person svg{position:absolute; inset:0; width:100%; height:100%; overflow:visible; filter:drop-shadow(0 0 6px rgba(255,200,20,.85)) drop-shadow(0 0 1px rgba(255,180,0,.9)); transition:opacity .6s}
+.person .stand{opacity:1} .person .walk{opacity:0}
+.orrery.moving .person .stand{opacity:0} .orrery.moving .person .walk{opacity:1}
+.walk .lm{stroke:#FFFDF6; stroke-linecap:round; fill:none}
+.walk .back{stroke:#F3EBD5}
+.walk .leg{transform-origin:50px 56px} .walk .shin{transform-origin:50px 74px} .walk .arm{transform-origin:50px 30px}
+.orrery.moving .walk .bob{animation:w-bob 1.1s linear infinite}
+.orrery.moving .walk .leg{animation:w-thigh 1.1s ease-in-out infinite}
+.orrery.moving .walk .shin{animation:w-shin 1.1s ease-in-out infinite}
+.orrery.moving .walk .arm{animation:w-arm 1.1s ease-in-out infinite}
+.orrery.moving .walk .b2{animation-delay:-.55s}
+@keyframes w-thigh{0%,100%{transform:rotate(-24deg)}50%{transform:rotate(24deg)}}
+@keyframes w-shin{0%,48%{transform:rotate(0)}72%{transform:rotate(58deg)}96%,100%{transform:rotate(0)}}
+@keyframes w-arm{0%,100%{transform:rotate(22deg)}50%{transform:rotate(-22deg)}}
+@keyframes w-bob{0%,50%,100%{transform:translateY(0)}25%,75%{transform:translateY(-1.6px)}}
+
+.dial-tools{display:flex; align-items:center; gap:14px; margin-top:8px; font-size:13px; color:var(--muted); flex-wrap:wrap; justify-content:center}
+.seg2{display:inline-flex; border:1px solid var(--line); border-radius:999px; padding:3px; background:var(--card)}
+.seg2 button{padding:3px 16px; border-radius:999px; font-size:15px; letter-spacing:.2em; color:var(--muted)}
+.seg2 button[aria-pressed="true"]{background:var(--ink); color:var(--paper)}
+.tip{position:fixed; z-index:20; pointer-events:none; background:var(--ink); color:var(--paper); font-size:13.5px; line-height:1.5; padding:6px 10px; border-radius:6px; white-space:nowrap; opacity:0; transform:translate(-50%,calc(-100% - 12px)); transition:opacity .12s}
+.tip.show{opacity:1}
+
+/* ---------- 下半部分 ---------- */
+.lower{display:grid; grid-template-columns:minmax(0,.82fr) minmax(0,1fr); gap:clamp(24px,3.6vw,64px); margin-top:clamp(24px,3vw,44px); align-items:start}
+.now-head{display:flex; align-items:baseline; gap:12px; margin-bottom:8px}
+.now-head span{font-size:13px; color:var(--muted)}
+.legend{list-style:none; margin:0; padding:0; border-top:2px solid rgba(29,30,28,.7); border-bottom:2px solid rgba(29,30,28,.7)}
+.legend li + li{border-top:1px solid var(--rule)}
+.legend .row{width:100%; display:grid; grid-template-columns:4.2em minmax(0,1fr) auto; align-items:baseline; column-gap:12px; text-align:left; padding:8px 10px}
+.legend button.row:hover{background:var(--band)}
+.legend button.row[aria-pressed="true"]{background:var(--card); box-shadow:inset 3px 0 0 var(--gold)}
+.legend .nm{font-size:13px; color:var(--muted); letter-spacing:.12em}
+.legend .val{font-size:18px; font-weight:700; letter-spacing:.06em}
+.legend .ext{font-size:14px; color:var(--muted); text-align:right}
+.legend .ext svg{width:20px; height:20px; vertical-align:-4px}
+.legend .row.off .val{color:var(--faint); font-weight:400}
+
+.cal-head{display:flex; align-items:center; gap:8px; margin-bottom:12px; flex-wrap:wrap}
+.cal-title{flex:1; display:flex; align-items:center; justify-content:center; gap:6px}
+.pick{font-size:19px; font-weight:900; letter-spacing:.08em; padding:2px 4px; border-radius:4px; -webkit-appearance:none; appearance:none; text-align:center}
+.pick:hover{background:var(--band)}
+.cal-today{font-size:14px; padding:4px 12px; border:1px solid var(--line); border-radius:999px}
+.cal-today:hover{background:var(--band)}
+.grid{display:grid; grid-template-columns:repeat(7,minmax(0,1fr)); gap:4px}
+.wd{font-size:12px; color:var(--muted); text-align:center; padding:4px 0; letter-spacing:.1em}
+.day{position:relative; min-height:60px; border-radius:6px; padding:6px 3px 5px; display:flex; flex-direction:column; align-items:center; gap:1px; background:var(--card)}
+.day:hover{background:var(--band)}
+.day .n{font-size:18px; line-height:1.2; font-variant-numeric:tabular-nums}
+.day .sub{font-size:11px; line-height:1.3; color:var(--muted); white-space:nowrap; overflow:hidden; max-width:100%}
+.day .sub.term{color:var(--red); font-weight:700}
+.day .sub.fest{color:var(--off)}
+.day .tag{position:absolute; top:3px; right:5px; font-size:10px; font-style:normal; line-height:1.4}
+.day.out{background:transparent} .day.out .n,.day.out .sub{opacity:.36}
+.day.weekend .n{color:var(--muted)}
+.day.today{box-shadow:inset 0 0 0 1.5px var(--ink)}
+.day.sel{background:var(--ink); color:var(--paper)}
+.day.sel .sub,.day.sel .tag,.day.sel .n{color:var(--paper) !important}
+.years{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:18px 16px}
+.mini-t{font-size:15px; font-weight:900; letter-spacing:.1em; margin-bottom:4px; padding:0 2px; border-radius:4px}
+.mini-t:hover{background:var(--band)}
+.mini .grid{gap:1px}
+.mini .wd{font-size:10px; padding:1px 0}
+.md{font-size:12px; line-height:1.9; text-align:center; border-radius:4px; font-variant-numeric:tabular-nums}
+.md:hover{background:var(--band)}
+.md.term{color:var(--red); font-weight:900}
+.md.off{color:var(--off); font-weight:700}
+.md.work{color:var(--work)}
+.md.today{box-shadow:inset 0 0 0 1.2px var(--ink)}
+.md.sel{background:var(--ink); color:var(--paper)}
+.md.blank{visibility:hidden}
+.cal-key{margin:10px 0 0; font-size:12.5px; color:var(--muted); display:flex; gap:14px; flex-wrap:wrap}
+.cal-key b{font-weight:900}
+.cal-status{margin:6px 0 0; font-size:13px; color:var(--muted); display:flex; gap:12px; flex-wrap:wrap; align-items:baseline}
+
+.foot{margin-top:clamp(28px,4vw,52px); padding-top:16px; border-top:1px solid var(--line); display:flex; justify-content:space-between; gap:14px 40px; flex-wrap:wrap; font-size:14px; color:var(--muted)}
+.foot p{margin:0}
+.credit{font-size:12.5px; color:var(--faint)}
+.actions{display:flex; gap:22px; flex-wrap:wrap; align-items:baseline}
+details{max-width:56em}
+summary{cursor:pointer; list-style:none; display:inline-block; border-bottom:1px solid currentColor; color:var(--ink)}
+summary::-webkit-details-marker{display:none}
+details ul{margin:12px 0 0; padding-left:1.2em; line-height:1.9}
+.nojs{padding:16px; margin:0 0 16px; background:#FFF6D6; border-radius:6px; font-size:15px}
+
+@media (max-width:1060px){
+  .hero{grid-template-columns:minmax(0,1fr) 128px; grid-template-areas:"bar bar" "dial dial" "quote term"}
+  .dial-col{padding:0 0 14px; border-bottom:1px solid var(--rule); margin-bottom:14px}
+  .term-col{border-right:0; border-left:1px solid var(--rule); padding:4px 0 4px 10px; justify-content:center}
+  .quote-col{border-left:0; padding:4px 12px 4px 4px}
+  .term-v{height:330px}
+  .term-name{font-size:68px}
+  .q-v{height:280px}
+  .lower{grid-template-columns:minmax(0,1fr)}
+  .lab.r-sc{font-size:calc(var(--u)*19px)} .lab.r-q{font-size:calc(var(--u)*18px)} .lab.r-t{font-size:calc(var(--u)*18px)}
+  .lab.r-mo{font-size:calc(var(--u)*19px)} .lab.r-s{font-size:calc(var(--u)*32px)}
+  .lab.badge{font-size:calc(var(--u)*13px); width:calc(var(--u)*23px); height:calc(var(--u)*23px)}
+}
+@media (max-width:520px){
+  .years{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .legend .row{grid-template-columns:3.9em minmax(0,1fr)}
+  .legend .ext{grid-column:2; text-align:left}
+  .day{min-height:52px; padding:5px 2px 4px}
+  .day .n{font-size:16px} .day .sub{font-size:10px}
+  .clock-time{font-size:40px}
+  .hero{padding:12px}
+  .sd{width:52px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important; animation:none !important}}
+</style>
+</head>
+<body>
+<div class="page">
+<p class="nojs" id="nojs">如果你只看到这一行和外框，说明当前打开方式没有运行页面脚本（比如微信或“文件”里的预览）。请用 Safari、Chrome 等浏览器打开。</p>
+
+<header class="top">
+  <h1 class="title">内经时间</h1>
+  <div class="clock"><p class="clock-info"><b id="clockDate"></b><br><span id="clockGz"></span></p><div class="clock-time" id="clockTime"></div></div>
+</header>
+
+<section class="hero">
+  <div class="datebar">
+    <div class="strip-wrap">
+      <button class="nav" id="dayPrev" type="button" aria-label="前一天">‹</button>
+      <div class="strip" id="strip" role="listbox" aria-label="选择日期"></div>
+      <button class="nav" id="dayNext" type="button" aria-label="后一天">›</button>
+    </div>
+  </div>
+
+  <div class="term-col">
+    <div class="term-v vert"><h2 class="term-name" id="termName"></h2><p class="term-meta" id="termMeta"></p></div>
+  </div>
+
+  <div class="dial-col">
+    <div class="dial-top"><button class="today-btn" id="backNow" type="button">今日</button></div>
+    <div class="orrery" id="orrery" role="group" aria-label="内经时间环：从里到外是时辰、四时、月相、节气、月、四季">
+      <div class="plane" id="plane"></div>
+      <div class="labels" id="labels"></div>
+    </div>
+    <div class="dial-tools">
+      <div class="seg2" role="group" aria-label="静或动">
+        <button type="button" data-mode="still" aria-pressed="true">静</button>
+        <button type="button" data-mode="move" aria-pressed="false">动</button>
+      </div>
+      <span id="dragHint">点一格看它的原文；点空白处取消</span>
+    </div>
+  </div>
+
+  <div class="quote-col" id="quoteCol">
+    <div class="q-head"><span id="qScale"></span><b id="qVal"></b></div>
+    <div class="q-v vert" id="qV"></div>
+    <p class="q-plain" id="qPlain"></p>
+    <p class="q-more" id="qMore"></p>
+    <p class="q-full" id="qFull"></p>
+    <div class="q-tip" id="qTip"></div>
+    <p class="q-note" id="qNote"></p>
+  </div>
+</section>
+
+<div class="lower">
+  <section>
+    <div class="now-head"><h2 class="h" id="nowTitle">此刻</h2><span id="nowSub"></span></div>
+    <ul class="legend" id="legend"></ul>
+  </section>
+
+  <section class="cal" id="cal">
+    <div class="cal-head">
+      <div class="seg2" role="group" aria-label="按年或按月看">
+        <button type="button" data-view="year" aria-pressed="false">年</button>
+        <button type="button" data-view="month" aria-pressed="true">月</button>
+      </div>
+      <div class="cal-title">
+        <button class="nav" id="prev" type="button" aria-label="往前">‹</button>
+        <select class="pick" id="pickY" aria-label="选年"></select>
+        <select class="pick" id="pickM" aria-label="选月"></select>
+        <button class="nav" id="next" type="button" aria-label="往后">›</button>
+      </div>
+      <button class="cal-today" id="calToday" type="button">今日</button>
+    </div>
+    <div id="calBody"></div>
+    <p class="cal-key"><span><b style="color:var(--red)">红字</b> 节气</span><span><b style="color:var(--off)">休</b> 放假</span><span><b style="color:var(--work)">班</b> 补班</span></p>
+    <p class="cal-status"><span id="holStatus"></span><button class="link" id="holFetch" type="button">更新放假安排</button></p>
+  </section>
+</div>
+
+<footer class="foot">
+  <p>五日谓之候，三候谓之气，六气谓之时，四时谓之岁。《黄帝内经·素问·六节藏象论》<br>
+  <span class="credit">© 2026 Lu　《素问》原文属公版；白话、养生提示与设计为作者原创。</span></p>
+  <div class="actions">
+    <button class="link" id="ics" type="button">把节气加到日历</button>
+    <details>
+      <summary>这一页怎么算的</summary>
+      <ul>
+        <li>时间取自你的手机或电脑，每次打开都是当下，不用联网。</li>
+        <li>页面上的圆环、此刻、原文都跟着顶部选中的日期走。看别的日子时，时辰和四时那两圈会变浅，因为那天还没有具体的钟点。</li>
+        <li>点圆环上任何一格，就只看这一格：其余变半透明，右边换成这一格的原文和养生提示。点空白处取消。</li>
+        <li>圆环按上北下南、左西右东摆放；从里到外按时间从短到长：时辰、四时、月相、节气、月、四季。</li>
+        <li>四时取《灵枢》“一日分为四时”之意，以零点、六点、十二点、十八点为界。</li>
+        <li>月相那一圈是这个农历月的每一天，每格画当天中午的月亮。</li>
+        <li>月那一圈是干支月：以节为界，大雪起为子月，小寒起为丑月，立春起为寅月……它和二十四节气严格对齐，所以这是一张干支节气盘。《素问》按正月、二月记月，寅月就是正月。</li>
+        <li>右上角的“年/月/日/时”是干支四柱的写法，年以立春为界；下面“此刻”里的年是农历年，以正月初一为界，所以在一月到二月之间两者可能差一年。</li>
+        <li>点“动”，各圈从里到外依次立起来，停在自己的角度上自转，越往外越慢。可以拨动某一圈的轨道，也可以在空白处拖动整个球体。点“静”，从外到里依次放平归位。</li>
+        <li>节气、农历、干支都由公式算出，不用联网。放假安排需要联网获取一次，数据来自开源项目 holiday-cn。</li>
+        <li>原文出自《素问》。白话和养生提示是草稿；养生提示里标了出处，凡不是《素问》原文的都写明了。仅供日常参考，不是医疗建议。</li>
+      </ul>
+    </details>
+  </div>
+</footer>
+</div>
+
+<div class="tip" id="tip" role="status"></div>
+
+<script>
+document.getElementById('nojs').style.display='none';
+(function(){
+'use strict';
+
+/* ======================= 内容 ======================= */
+var TERMS=['冬至','小寒','大寒','立春','雨水','惊蛰','春分','清明','谷雨','立夏','小满','芒种','夏至','小暑','大暑','立秋','处暑','白露','秋分','寒露','霜降','立冬','小雪','大雪'];
+var TERM_TEXT={
+  '立春':{q:{t:'东方青色，入通于肝，开窍于目，藏精于肝',s:'金匮真言论'},p:'东方属青色，和肝相通。肝开窍于眼睛，精气藏在肝里。'},
+  '雨水':{q:{t:'春者，天气始开，地气始泄，冻解冰释，水行经通，故人气在脉。',s:'四时刺逆从论'},p:'春天，天气开始舒展，地气开始发散，冰冻化开，水流起来，经脉也通畅，所以人的气在经脉。'},
+  '惊蛰':{q:{t:'春脉者肝也，东方木也，万物之所以始生也，故其气来，耎弱轻虚而滑，端直以长，故曰弦',s:'玉机真藏论'},p:'春天的脉应肝，属东方的木，是万物开始生长的时候。所以脉气来得柔软、轻虚而滑，又直又长，叫做弦。'},
+  '春分':{q:{t:'凡阴阳之要，阳密乃固，两者不和，若春无秋，若冬无夏，因而和之，是谓圣度。',s:'生气通天论'},p:'阴阳的关键，在于阳气固密，阴气才守得住。两者不调和，就像只有春没有秋，只有冬没有夏。让它们调和，是最高的法度。'},
+  '清明':{q:{t:'春日浮，如鱼之游在波',s:'脉要精微论'},p:'春天的脉浮在上面，像鱼在水波里游。'},
+  '谷雨':{q:{t:'春伤于风，夏生飱泄',s:'阴阳应象大论'},p:'春天被风所伤，到了夏天容易腹泻。'},
+  '立夏':{q:{t:'南方赤色，入通于心，开窍于耳，藏精于心',s:'金匮真言论'},p:'南方属赤色，和心相通。心开窍于耳，精气藏在心里。'},
+  '小满':{q:{t:'夏者，经满气溢，入孙络受血，皮肤充实。',s:'四时刺逆从论'},p:'夏天，经脉充满，气往外溢，流进细小的孙络，皮肤也跟着充实起来。'},
+  '芒种':{q:{t:'夏脉者心也，南方火也，万物之所以盛长也，故其气来盛去衰，故曰钩',s:'玉机真藏论'},p:'夏天的脉应心，属南方的火，是万物长得最盛的时候。所以脉气来时盛，去时衰，叫做钩。'},
+  '夏至':{q:{t:'夏至四十五日，阴气微上，阳气微下。',s:'脉要精微论'},p:'夏至之后的四十五天，阴气慢慢上升，阳气慢慢下降。'},
+  '小暑':{q:{t:'夏日在肤，泛泛乎万物有馀',s:'脉要精微论'},p:'夏天的脉在皮肤，满满的，像万物都有富余。'},
+  '大暑':{q:{t:'夏伤于暑，秋必痎疟',s:'阴阳应象大论'},p:'夏天被暑热所伤，到了秋天容易发疟疾。'},
+  '立秋':{q:{t:'西方白色，入通于肺，开窍于鼻，藏精于肺',s:'金匮真言论'},p:'西方属白色，和肺相通。肺开窍于鼻，精气藏在肺里。'},
+  '处暑':{q:{t:'秋者，天气始收，腠理闭塞，皮肤引急。',s:'四时刺逆从论'},p:'秋天，天气开始收敛，皮肤的纹理闭合，皮肤收紧。'},
+  '白露':{q:{t:'秋脉者肺也，西方金也，万物之所以收成也，故其气来，轻虚以浮，来急去散，故曰浮',s:'玉机真藏论'},p:'秋天的脉应肺，属西方的金，是万物收成的时候。所以脉气来得轻虚而浮，来时急，去时散，叫做浮。'},
+  '秋分':{q:{t:'阴平阳秘，精神乃治，阴阳离决，精气乃绝。',s:'生气通天论'},p:'阴气平和，阳气固密，精神就安定。阴阳分离，精气也就断绝了。'},
+  '寒露':{q:{t:'秋日下肤，蛰虫将去',s:'脉要精微论'},p:'秋天的脉沉到皮肤下面，像虫子快要躲起来过冬。'},
+  '霜降':{q:{t:'秋伤于湿，冬生咳嗽',s:'阴阳应象大论'},p:'秋天被湿气所伤，到了冬天容易咳嗽。'},
+  '立冬':{q:{t:'北方黑色，入通于肾，开窍于二阴，藏精于肾',s:'金匮真言论'},p:'北方属黑色，和肾相通。肾开窍于前后二阴，精气藏在肾里。'},
+  '小雪':{q:{t:'冬者盖藏，血气在中，内著骨髓，通于五藏。',s:'四时刺逆从论'},p:'冬天万物闭藏，血气收在身体里面，向内附着在骨髓，和五脏相通。'},
+  '大雪':{q:{t:'冬脉者肾也，北方水也，万物之所以合藏也，故其气来，沈以搏，故曰营',s:'玉机真藏论'},p:'冬天的脉应肾，属北方的水，是万物闭合收藏的时候。所以脉气来得沉而有力，叫做营。'},
+  '冬至':{q:{t:'冬至四十五日，阳气微上，阴气微下',s:'脉要精微论'},p:'冬至之后的四十五天，阳气慢慢上升，阴气慢慢下降。'},
+  '小寒':{q:{t:'冬日在骨，蛰虫周密，君子居室',s:'脉要精微论'},p:'冬天的脉沉到骨头，像虫子藏得严严实实，像人待在屋里。'},
+  '大寒':{q:{t:'冬伤于寒，春必温病',s:'阴阳应象大论'},p:'冬天被寒气所伤，到了春天容易得温病。'}
+};
+/* 节气养生：后世通行的说法（顺序同 TERMS，0 为冬至） */
+var TERM_TIPS=['阴气最盛、阳气初生，宜静养，早点睡。','一年里很冷的时候，避寒保暖，适量活动别出大汗。','岁末最冷，以“藏”为主，给来年春天攒精神。',
+  '天气还冷，别急着减衣；早上起来舒展一下。','湿气渐重，少吃生冷，照顾脾胃。','万物复苏，多到户外走走，早睡早起。',
+  '昼夜平分，作息规律，饮食不偏寒也不偏热。','适合踏青，让心情舒展开。','雨水多，注意防湿，饮食清淡。',
+  '天渐热，心情要平和，中午可以小憩。','湿热交加，少吃油腻，饮食清淡。','天热容易困倦，保证睡眠，多喝水。',
+  '白天最长，中午小睡补一补，避开正午暴晒。','暑气渐盛，别贪凉，少喝冰的。','一年最热，防暑降温，出汗后别马上吹冷风。',
+  '开始早睡早起，逐渐收敛，少吃辛辣。','暑气渐退，早晚温差大，注意添衣。','早晚转凉，别再赤脚露腹。',
+  '昼夜又平分，起居有常，保持平静。','天气转寒，脚要保暖；秋燥，多喝水。','深秋寒气重，早晚添衣，饮食温润。',
+  '开始闭藏，早睡晚起，不要大汗。','天冷了，保暖为先，少熬夜。','寒气更盛，护好头颈和腰腹。'];
+
+var SEASONS=[
+  {ch:'春',name:'春三月',span:'立春-立夏',hl:'春三月，此谓发陈，天地俱生，万物以荣',
+   t:'春三月，此谓发陈，天地俱生，万物以荣，夜卧早起，广步于庭，被发缓形，以使志生，生而勿杀，予而勿夺，赏而勿罚，此春气之应养生之道也。',
+   p:'春天的三个月，叫做发陈，万物推陈出新。天地都有了生气，万物欣欣向荣。',tip:'晚睡早起，在院子里大步走走，披开头发、放松身体，让心志生发；多给少夺，少发脾气。'},
+  {ch:'夏',name:'夏三月',span:'立夏-立秋',hl:'夏三月，此谓蕃秀，天地气交，万物华实',
+   t:'夏三月，此谓蕃秀，天地气交，万物华实，夜卧早起，无厌于日，使志无怒，使华英成秀，使气得泄，若所爱在外，此夏气之应养长之道也。',
+   p:'夏天的三个月，叫做蕃秀，万物繁茂秀美。天地之气相交，万物开花结果。',tip:'晚睡早起，不要嫌白天长；不要发怒，让气能向外舒展，适度出汗。'},
+  {ch:'秋',name:'秋三月',span:'立秋-立冬',hl:'秋三月，此谓容平，天气以急，地气以明',
+   t:'秋三月，此谓容平，天气以急，地气以明，早卧早起，与鸡俱兴，使志安宁，以缓秋刑，收敛神气，使秋气平，无外其志，使肺气清，此秋气之应养收之道也',
+   p:'秋天的三个月，叫做容平，万物成熟平定。天上风气劲急，地上景物清明。',tip:'早睡早起，跟着鸡鸣起床；让心志安宁，收敛神气，不让心思外散。'},
+  {ch:'冬',name:'冬三月',span:'立冬-立春',hl:'冬三月，此谓闭藏，水冰地坼，无扰乎阳',
+   t:'冬三月，此谓闭藏，水冰地坼，无扰乎阳，早卧晚起，必待日光，使志若伏若匿，若有私意，若已有得，去寒就温，无泄皮肤使气亟夺，此冬气之应养藏之道也。',
+   p:'冬天的三个月，叫做闭藏，万物关闭收藏。水结冰，地冻裂，不要扰动阳气。',tip:'早睡晚起，等太阳出来再起床；避开寒冷、靠近温暖，不要大汗。'}
+];
+
+/* 一日：生气通天论讲阳气一天的走向 */
+var DAY_ARC={t:'故阳气者，一日而主外，平旦人气生，日中而阳气隆，日西而阳气已虚，气门乃闭。是故暮而收拒，无扰筋骨，无见雾露，反此三时，形乃困薄。',s:'生气通天论',
+  parts:[{from:3,to:11,hl:'平旦人气生',p:'清晨，人的阳气开始生发。阳气白天在外面守护身体。'},
+         {from:11,to:15,hl:'日中而阳气隆',p:'正午，阳气最旺。'},
+         {from:15,to:19,hl:'日西而阳气已虚，气门乃闭',p:'太阳偏西，阳气已经弱了，汗孔也关上。'},
+         {from:19,to:27,hl:'是故暮而收拒，无扰筋骨，无见雾露',p:'所以到了晚上要收起来，不要劳动筋骨，不要去沾雾露。'}]};
+/* 时辰养生：后世子午流注的说法（0 为子时） */
+var SHICHEN_TIPS=[
+  ['胆经','最好在子时之前睡下，让阳气安静地生起来。'],['肝经','这时应该在熟睡。'],['肺经','睡得最深的时候，注意保暖，不要受凉。'],
+  ['大肠经','起床，喝一杯温水，按时排便。'],['胃经','好好吃早饭。'],['脾经','头脑清楚，适合专心做事。'],
+  ['心经','吃过午饭，小睡一会儿，不做剧烈运动。'],['小肠经','午后消化的时候，适量喝水。'],['膀胱经','适合活动、学习，多喝水。'],
+  ['肾经','别太劳累，晚饭吃得清淡些。'],['心包经','放松下来，可以出去散散步。'],['三焦经','放下手机，准备睡觉。']];
+var SHICHEN_MORE={0:{t:'故人卧，血归于肝，肝受血而能视',s:'五藏生成'},1:{t:'故人卧，血归于肝，肝受血而能视',s:'五藏生成'},9:{t:'胃不和则卧不安',s:'逆调论'}};
+
+/* 四时（一日之四时）：金匮真言论 */
+var QUARTER_TEXT='平旦至日中，天之阳，阳中之阳也；日中至黄昏，天之阳，阳中之阴也；合夜至鸡鸣，天之阴，阴中之阴也；鸡鸣至平旦，天之阴，阴中之阳也。故人亦应之。';
+var QUARTERS=[
+  {name:'鸡鸣至平旦',yy:'阴中之阳',hl:'鸡鸣至平旦，天之阴，阴中之阳也',p:'从鸡鸣到清晨，是夜晚的阴，阴里面的阳。人也跟着天的阴阳变化。',tip:'阳气在暗中萌动，安睡到天亮，不必太早起来受寒。',src:'据原文引申'},
+  {name:'平旦至日中',yy:'阳中之阳',hl:'平旦至日中，天之阳，阳中之阳也',p:'从清晨到正午，是白天的阳，阳里面的阳。人也跟着天的阴阳变化。',tip:'阳气生发最旺，适合做最费神的事，多到户外。',src:'据原文引申'},
+  {name:'日中至黄昏',yy:'阳中之阴',hl:'日中至黄昏，天之阳，阳中之阴也',p:'从正午到黄昏，是白天的阳，阳里面的阴。人也跟着天的阴阳变化。',tip:'阳气慢慢往回收，做事可以放缓一些。',src:'据原文引申'},
+  {name:'合夜至鸡鸣',yy:'阴中之阴',hl:'合夜至鸡鸣，天之阴，阴中之阴也',p:'从入夜到鸡鸣，是夜晚的阴，阴里面的阴。人也跟着天的阴阳变化。',tip:'《生气通天论》说“暮而收拒，无扰筋骨，无见雾露”：晚上少做剧烈运动，避开夜里的寒湿，早点休息。',src:'据原文'}
+];
+
+/* 月相：八正神明论 */
+var MOON_TEXT='月始生，则血气始精，卫气始行；月郭满，则血气实，肌肉坚；月郭空，则肌肉减，经络虚，卫气去，形独居。是以因天时而调血气也。';
+var MOON={
+  wax:{name:'月始生',hl:'月始生，则血气始精，卫气始行',p:'月亮刚开始生长的时候，人的血气开始清爽流畅，卫气开始运行。',tip:'血气渐渐充起来，作息规律，活动量可以慢慢加。'},
+  full:{name:'月郭满',hl:'月郭满，则血气实，肌肉坚',p:'月亮圆满的时候，人的血气充实，肌肉坚实。',tip:'血气正足，饮食清淡些，不必再额外进补。'},
+  dark:{name:'月郭空',hl:'月郭空，则肌肉减，经络虚，卫气去，形独居',p:'月亮看不见的时候，人的肌肉消减，经络空虚，卫气离去，只剩形体独自留着。',tip:'身体偏虚，多休息、注意保暖，别太劳累。'},
+  wane:{name:'月满之后',hl:'是以因天时而调血气也',p:'所以要顺着天时来调养血气。',tip:'月亮由圆转缺，跟着慢慢收一收，少熬夜、少应酬。',note:'原文只讲了月初生、月圆、月隐没三个时候。月亮由圆转缺这一段，在后两者之间。'}
+};
+var PHASES=['朔月','蛾眉月','上弦月','盈凸月','望月','亏凸月','下弦月','残月'];
+
+/* 月：诊要经终论 */
+var MONTH_TEXT='正月二月，天气始方，地气始发，人气在肝。三月四月，天气正方，地气定发，人气在脾。五月六月，天气盛，地气高，人气在头。七月八月，阴气始杀，人气在肺。九月十月，阴气始冰，地气始闭，人气在心。十一月十二月，冰复，地气合，人气在肾。';
+var MONTH_PAIRS=[
+  {hl:'正月二月，天气始方，地气始发，人气在肝',p:'正月二月，天气开始舒展，地气开始发动，人的气在肝。',tip:'人气在肝：春天宜舒展，少发怒，多到户外走走。'},
+  {hl:'三月四月，天气正方，地气定发，人气在脾',p:'三月四月，天气正当舒展，地气稳稳地生发，人的气在脾。',tip:'人气在脾：饮食有节，别吃得太撑。'},
+  {hl:'五月六月，天气盛，地气高，人气在头',p:'五月六月，天气旺盛，地气升高，人的气在头部。',tip:'人气在头：暑热往上走，注意防晒，让头脑清凉。'},
+  {hl:'七月八月，阴气始杀，人气在肺',p:'七月八月，阴气开始肃杀，人的气在肺。',tip:'人气在肺：天气转燥，多喝水，护好呼吸。'},
+  {hl:'九月十月，阴气始冰，地气始闭，人气在心',p:'九月十月，阴气开始结冰，地气开始闭藏，人的气在心。',tip:'人气在心：心情平和，少大喜大悲。'},
+  {hl:'十一月十二月，冰复，地气合，人气在肾',p:'十一月十二月，冰冻严实，地气闭合，人的气在肾。',tip:'人气在肾：早睡晚起，腰腹保暖。'}
+];
+var MONTH_NAMES=['正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','十一月','十二月'];
+var BRANCH='子丑寅卯辰巳午未申酉戌亥', STEM='甲乙丙丁戊己庚辛壬癸', ZODIAC='鼠牛虎兔龙蛇马羊猴鸡狗猪';
+
+var HOLIDAYS_BUILTIN={2026:[["01-01","元旦",1],["01-02","元旦",1],["01-03","元旦",1],["01-04","元旦",0],["02-14","春节",0],["02-15","春节",1],["02-16","春节",1],["02-17","春节",1],["02-18","春节",1],["02-19","春节",1],["02-20","春节",1],["02-21","春节",1],["02-22","春节",1],["02-23","春节",1],["02-28","春节",0],["04-04","清明节",1],["04-05","清明节",1],["04-06","清明节",1],["05-01","劳动节",1],["05-02","劳动节",1],["05-03","劳动节",1],["05-04","劳动节",1],["05-05","劳动节",1],["05-09","劳动节",0],["06-19","端午节",1],["06-20","端午节",1],["06-21","端午节",1],["09-20","国庆节",0],["09-25","中秋节",1],["09-26","中秋节",1],["09-27","中秋节",1],["10-01","国庆节",1],["10-02","国庆节",1],["10-03","国庆节",1],["10-04","国庆节",1],["10-05","国庆节",1],["10-06","国庆节",1],["10-07","国庆节",1],["10-10","国庆节",0]]};
+var HOLIDAY_URLS=['https://fastly.jsdelivr.net/gh/NateScarlet/holiday-cn@master/{y}.json','https://cdn.jsdelivr.net/gh/NateScarlet/holiday-cn@master/{y}.json','https://raw.githubusercontent.com/NateScarlet/holiday-cn/master/{y}.json'];
+
+/* ======================= 天文与历法 ======================= */
+var D2R=Math.PI/180, DAY=86400000, DT=69.2/86400, BJ=8*3600000;
+function norm(a){return ((a%360)+360)%360;}
+function sind(d){return Math.sin(d*D2R);} function cosd(d){return Math.cos(d*D2R);}
+function cent(ms){return (ms/DAY+2440587.5+DT-2451545)/36525;}
+function sunLon(ms){
+  var t=cent(ms), L0=280.46646+36000.76983*t+0.0003032*t*t, M=357.52911+35999.05029*t-0.0001537*t*t;
+  var C=(1.914602-0.004817*t-0.000014*t*t)*sind(M)+(0.019993-0.000101*t)*sind(2*M)+0.000289*sind(3*M);
+  return norm(L0+C-0.00569-0.00478*sind(125.04-1934.136*t));
+}
+function moonLon(ms){
+  var t=cent(ms), L=218.3164477+481267.88123421*t, D=297.8501921+445267.1114034*t, M=357.5291092+35999.0502909*t,
+      Mp=134.9633964+477198.8675055*t, F=93.2720950+483202.0175233*t;
+  return norm(L+6.288774*sind(Mp)+1.274027*sind(2*D-Mp)+0.658314*sind(2*D)+0.213618*sind(2*Mp)-0.185116*sind(M)
+    -0.114332*sind(2*F)+0.058793*sind(2*D-2*Mp)+0.057066*sind(2*D-M-Mp)+0.053322*sind(2*D+Mp)+0.045758*sind(2*D-M)
+    -0.040923*sind(M-Mp)-0.034720*sind(D)-0.030383*sind(M+Mp));
+}
+function elong(ms){return norm(moonLon(ms)-sunLon(ms));}
+function termInstant(k,guess){var target=(270+15*k)%360,t=guess;for(var n=0;n<8;n++){var d=norm(sunLon(t)-target);if(d>180)d-=360;t-=d/360*365.2422*DAY;}return t;}
+function newMoonNear(t){for(var n=0;n<8;n++){var d=elong(t);if(d>180)d-=360;t-=d/12.1907*DAY;}return t;}
+function newMoonOnOrBefore(ms){var t=newMoonNear(ms-elong(ms)/12.1907*DAY);if(t>ms)t=newMoonNear(t-29.5306*DAY);return t;}
+function bjDay(ms){return Math.floor((ms+BJ)/DAY);}
+function civDay(y,m,d){return Math.round(Date.UTC(y,m,d)/DAY);}
+function dayOf(ms){var d=new Date(ms);return civDay(d.getFullYear(),d.getMonth(),d.getDate());}
+function dateOfDay(n){var d=new Date(n*DAY);return {y:d.getUTCFullYear(),m:d.getUTCMonth(),d:d.getUTCDate(),w:d.getUTCDay()};}
+function noonOf(dn){return dn*DAY-BJ+12*3600000;}
+var suiCache={};
+function wsDay(y){return bjDay(termInstant(0,Date.UTC(y,11,21)));}
+function monthStartFor(dn){return bjDay(newMoonOnOrBefore((dn+1)*DAY-BJ-1000));}
+function sui(y){
+  if(suiCache[y])return suiCache[y];
+  var a=monthStartFor(wsDay(y-1)), b=monthStartFor(wsDay(y)), s=[a];
+  while(s[s.length-1]<b)s.push(bjDay(newMoonNear((s[s.length-1]+29.53)*DAY-BJ+12*3600000)));
+  var zq=[], t=termInstant(0,Date.UTC(y-1,11,21)), i, j;
+  for(var k=0;k<=12;k++){zq.push(bjDay(t)); t=termInstant((2*k+2)%24,t+30.44*DAY);}
+  var leap=-1;
+  if(s.length-1===13){for(i=0;i<13;i++){var has=false;for(j=0;j<zq.length;j++){if(zq[j]>=s[i]&&zq[j]<s[i+1]){has=true;break;}}if(!has){leap=i;break;}}}
+  var months=[], num=11, firstZheng=-1;
+  for(i=0;i<s.length-1;i++){
+    if(i===leap){months.push({start:s[i],len:s[i+1]-s[i],num:months[months.length-1].num,leap:true});continue;}
+    if(i>0)num=num%12+1;
+    if(num===1&&firstZheng<0)firstZheng=i;
+    months.push({start:s[i],len:s[i+1]-s[i],num:num,leap:false});
+  }
+  return (suiCache[y]={y:y,months:months,end:b,firstZheng:firstZheng});
+}
+function lunarOf(dn){
+  var y=dateOfDay(dn).y, S=sui(y);
+  if(dn>=S.end)S=sui(y+1); else if(dn<S.months[0].start)S=sui(y-1);
+  for(var i=S.months.length-1;i>=0;i--)if(dn>=S.months[i].start){var M=S.months[i];
+    return {num:M.num,leap:M.leap,day:dn-M.start+1,start:M.start,len:M.len,year:i<S.firstZheng?S.y-1:S.y};}
+}
+var LM=['','正月','二月','三月','四月','五月','六月','七月','八月','九月','十月','冬月','腊月'];
+function lunarDayName(d){if(d===10)return '初十';if(d===20)return '二十';if(d===30)return '三十';return ['初','十','廿','三'][Math.floor(d/10)]+'一二三四五六七八九十'[(d-1)%10];}
+function lunarMonthName(l){return (l.leap?'闰':'')+LM[l.num];}
+function gz(i){i=((i%60)+60)%60;return STEM[i%10]+BRANCH[i%12];}
+function ganzhiDay(dn){return gz(dn+17);}
+function jieYear(ms){var y=new Date(ms).getFullYear();return ms<termInstant(3,Date.UTC(y,1,4))?y-1:y;}
+function ganzhiMonth(ms,m){var ys=(((jieYear(ms)-4)%10)+10)%10, st=((ys%5)*2+2)%10;return STEM[(st+m)%10]+BRANCH[(2+m)%12];}
+function moonState(e){return (e<18||e>=342)?'dark':(e<162)?'wax':(e<198)?'full':'wane';}
+function phaseOf(e){return Math.floor(norm(e+22.5)/45)%8;}
+
+/* ======================= 格式 ======================= */
+var CN='零一二三四五六七八九';
+function cn(n){if(n<10)return CN[n];if(n<20)return '十'+(n%10?CN[n%10]:'');return CN[Math.floor(n/10)]+'十'+(n%10?CN[n%10]:'');}
+function cnYear(y){return String(y).split('').map(function(c){return c==='0'?'〇':CN[+c];}).join('');}
+function pad(n){return (n<10?'0':'')+n;}
+function hm(d){return pad(d.getHours())+':'+pad(d.getMinutes());}
+function md(ms){var d=new Date(ms);return (d.getMonth()+1)+'月'+d.getDate()+'日';}
+var WEEK='日一二三四五六';
+function esc(s){return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;');}
+
+/* ======================= 所选时刻 ======================= */
+function stateAt(ms){
+  var lon=sunLon(ms), ya=norm(lon-270), i=Math.floor(ya/15)%24;
+  var start=termInstant(i,ms-(ya-15*i)/360*365.2422*DAY), next=termInstant((i+1)%24,start+15.2184*DAY);
+  var d=new Date(ms), hours=d.getHours()+d.getMinutes()/60+d.getSeconds()/3600, e=elong(ms), dn=dayOf(ms);
+  return {ms:ms,date:d,ya:ya,i:i,start:start,next:next,dayN:dn-dayOf(start)+1,hours:hours,
+    q:Math.floor(hours/6)%4, sc:Math.floor(((hours+1)%24)/2), e:e, moon:moonState(e), phase:phaseOf(e),
+    season:(i>=3&&i<=8)?0:(i>=9&&i<=14)?1:(i>=15&&i<=20)?2:3, month:Math.floor(norm(ya-45)/30)%12, dn:dn, lunar:lunarOf(dn)};
+}
+function termRange(k,s){var d=((k-s.i+36)%24)-12, st=termInstant(k,s.start+d*15.2184*DAY), en=termInstant((k+1)%24,st+15.2184*DAY);return md(st)+'～'+md(en-DAY);}
+
+/* ======================= 三维小工具 ======================= */
+var I3=[1,0,0,0,1,0,0,0,1];
+function mm(A,B){var C=new Array(9);for(var r=0;r<3;r++)for(var c=0;c<3;c++)C[r*3+c]=A[r*3]*B[c]+A[r*3+1]*B[3+c]+A[r*3+2]*B[6+c];return C;}
+function tr(A){return [A[0],A[3],A[6],A[1],A[4],A[7],A[2],A[5],A[8]];}
+function rot(x,y,z,deg){var L=Math.hypot(x,y,z)||1;x/=L;y/=L;z/=L;var c=cosd(deg),s=sind(deg),t=1-c;
+  return [t*x*x+c,t*x*y-s*z,t*x*z+s*y, t*x*y+s*z,t*y*y+c,t*y*z-s*x, t*x*z-s*y,t*y*z+s*x,t*z*z+c];}
+function rotZ(deg){return rot(0,0,1,deg);}
+function axisAngle(R){var c=(R[0]+R[4]+R[8]-1)/2;c=Math.max(-1,Math.min(1,c));var a=Math.acos(c)/D2R;if(a<1e-4)return {x:0,y:0,z:1,a:0};
+  var s=2*sind(a);return {x:(R[7]-R[5])/s,y:(R[2]-R[6])/s,z:(R[3]-R[1])/s,a:a};}
+function css(R){return 'matrix3d('+[R[0],R[3],R[6],0,R[1],R[4],R[7],0,R[2],R[5],R[8],0,0,0,0,1].map(function(v){return +v.toFixed(6);}).join(',')+')';}
+function isI(R){return Math.abs(R[0]-1)+Math.abs(R[4]-1)+Math.abs(R[8]-1)+Math.abs(R[1])+Math.abs(R[3])<1e-6;}
+
+/* ======================= 圆环 ======================= */
+var C=380;
+var RINGS=[
+  {k:'sc',name:'时辰',r:[70,114],inc:58,node:-20,speed:72},
+  {k:'q', name:'四时',r:[122,148],inc:66,node:28,speed:38},
+  {k:'m', name:'月相',r:[156,198],inc:50,node:-48,speed:20},
+  {k:'t', name:'节气',r:[206,238],inc:62,node:12,speed:10},
+  {k:'mo',name:'月',  r:[246,274],inc:44,node:52,speed:5},
+  {k:'s', name:'四季',r:[282,326],inc:56,node:-6,speed:2}
+];
+var BAND='#E3E1DB', PAPER='#F3F2EE', INK='#1D1E1C', NIGHT='#2B2B2B', GOLD='#FFC61A';
+function hex2rgb(h){return [parseInt(h.slice(1,3),16),parseInt(h.slice(3,5),16),parseInt(h.slice(5,7),16)];}
+function pad2(n){var s=n.toString(16);return s.length<2?'0'+s:s;}
+function mix(a,b,t){var A=hex2rgb(a),B=hex2rgb(b);return '#'+A.map(function(v,i){return pad2(Math.round(v+(B[i]-v)*t));}).join('');}
+function pt(r,a){return [C+r*sind(a), C-r*cosd(a)];}          /* 0 度在正上方（北），顺时针 */
+function f(n){return n.toFixed(2);}
+function arc(r,a1,a2){var p=pt(r,a1),q=pt(r,a2);return 'M'+f(p[0])+' '+f(p[1])+'A'+r+' '+r+' 0 '+((a2-a1)>180?1:0)+' 1 '+f(q[0])+' '+f(q[1]);}
+function seg(R,a1,a2,color,i,extra){var mid=(R.r[0]+R.r[1])/2,w=R.r[1]-R.r[0];
+  return '<path class="seg" d="'+arc(mid,a1,a2)+'" fill="none" stroke="'+color+'" stroke-width="'+w+'" data-k="'+R.k+'" data-i="'+i+'"'+(extra||'')+'/>';}
+function gaps(R,angles){return angles.map(function(a){var p=pt(R.r[0]-.5,a),q=pt(R.r[1]+.5,a);return '<line class="gap" x1="'+f(p[0])+'" y1="'+f(p[1])+'" x2="'+f(q[0])+'" y2="'+f(q[1])+'"/>';}).join('');}
+function range(n,step,off){var a=[];for(var i=0;i<n;i++)a.push(off+i*step);return a;}
+function moonPath(x,y,R,e){
+  var rx=f(Math.abs(cosd(e))*R);
+  if(e<=180)return 'M'+x+' '+(y-R)+'A'+R+' '+R+' 0 0 1 '+x+' '+(y+R)+'A'+rx+' '+R+' 0 0 '+(e<90?0:1)+' '+x+' '+(y-R)+'Z';
+  return 'M'+x+' '+(y-R)+'A'+R+' '+R+' 0 0 0 '+x+' '+(y+R)+'A'+rx+' '+R+' 0 0 '+(e>270?1:0)+' '+x+' '+(y-R)+'Z';
+}
+
+var plane=document.getElementById('plane'), orrery=document.getElementById('orrery'), labelsEl=document.getElementById('labels'), layers={}, LABELS=[], MARKERS={};
+function makeLayer(k,inner){var el=document.createElementNS('http://www.w3.org/2000/svg','svg');el.setAttribute('viewBox','0 0 760 760');el.setAttribute('class','layer L-'+k);el.innerHTML=inner;plane.appendChild(el);return el;}
+function addLabel(k,i,r,a,html,cls){
+  var el=document.createElement('span'); el.className='lab r-'+k+(cls?' '+cls:''); el.innerHTML=html;
+  el.setAttribute('data-k',k); if(i!=null)el.setAttribute('data-i',i); labelsEl.appendChild(el);
+  var L={k:k,i:i,x:r*sind(a),y:-r*cosd(a),el:el}; LABELS.push(L); return L;
+}
+function buildStatic(){
+  var R,h,i,a;
+  makeLayer('base','<defs><radialGradient id="aura"><stop offset="0" stop-color="#FFE36B" stop-opacity=".75"/><stop offset="1" stop-color="#FFE36B" stop-opacity="0"/></radialGradient></defs><circle cx="380" cy="380" r="64" fill="url(#aura)"/>');
+  /* 时辰 */
+  R=RINGS[0]; h='';
+  for(i=0;i<12;i++)h+=seg(R,30*i-15,30*i+15,BAND,i);
+  h+=gaps(R,range(12,30,15));
+  layers.sc=makeLayer('sc',h);
+  for(i=0;i<12;i++){addLabel('sc',i,101,30*i,BRANCH[i]+'时'); addLabel('sc',null,79,30*i+15,String((2*i+1)%24),'badge');}
+  /* 四时 */
+  R=RINGS[1]; h=''; var op=[.20,.04,.10,.32];
+  for(i=0;i<4;i++)h+=seg(R,90*i,90*i+90,mix(BAND,INK,op[i]),i);
+  h+=gaps(R,[0,90,180,270]);
+  layers.q=makeLayer('q',h);
+  ['鸡鸣','平旦','日中','黄昏'].forEach(function(t,j){addLabel('q',null,135,90*j,t,'halo');});
+  /* 月相：渲染时按农历月填 */
+  layers.m=makeLayer('m','');
+  /* 节气 */
+  R=RINGS[3]; h='';
+  for(i=0;i<24;i++)h+=seg(R,15*i,15*i+15,BAND,i);
+  h+=gaps(R,range(24,15,0));
+  for(a=0;a<360;a+=5)if(a%15){var p=pt(R.r[0],a),q=pt(R.r[0]+6,a);h+='<line class="tk" x1="'+f(p[0])+'" y1="'+f(p[1])+'" x2="'+f(q[0])+'" y2="'+f(q[1])+'"/>';}
+  layers.t=makeLayer('t',h);
+  for(i=0;i<24;i++)addLabel('t',i,223,15*i+7.5,TERMS[i]);
+  /* 月 */
+  R=RINGS[4]; h='';
+  for(i=0;i<12;i++)h+=seg(R,45+30*i,75+30*i,BAND,i);
+  h+=gaps(R,range(12,30,45)); layers.mo=makeLayer('mo',h);
+  for(i=0;i<12;i++)addLabel('mo',i,260,60+30*i,BRANCH[(2+i)%12]+'月');
+  /* 四季：东青、南赤、西白、北黑 */
+  R=RINGS[5]; h=''; var tint=[mix(BAND,'#2F7068',.30),mix(BAND,'#C63F2E',.24),'#FFFFFF',mix(BAND,INK,.30)];
+  for(i=0;i<4;i++)h+=seg(R,45+90*i,135+90*i,tint[i],i);
+  h+=gaps(R,[45,135,225,315]); layers.s=makeLayer('s',h);
+  for(i=0;i<4;i++)addLabel('s',i,304,90+90*i,SEASONS[i].ch);
+  /* 定位点放在浮层里，跟字一样始终正着 */
+  [['sc',114],['q',148],['t',238],['mo',274],['s',326]].forEach(function(m){
+    var L=addLabel(m[0],null,m[1],0,m[0]==='q'?'<span class="sm"></span>':'<span class="dot"></span>','mkr');
+    L.r=m[1]; L.ang=0; L.target=0; MARKERS[m[0]]=L;
+  });
+  /* 中心的人 */
+  var person=document.createElement('div'); person.className='person'; person.setAttribute('aria-hidden','true');
+  person.innerHTML='<svg class="stand" viewBox="26 2 48 96"><g stroke="#FFFDF6" stroke-linecap="round" fill="none">'
+   +'<line x1="45" y1="30" x2="40.5" y2="52" stroke-width="6.6"/><line x1="55" y1="30" x2="59.5" y2="52" stroke-width="6.6"/>'
+   +'<line x1="46.5" y1="56" x2="45.5" y2="92" stroke-width="7.6"/><line x1="53.5" y1="56" x2="54.5" y2="92" stroke-width="7.6"/></g>'
+   +'<rect x="43" y="24.5" width="14" height="34" rx="7" fill="#FFFDF6"/><circle cx="50" cy="13.5" r="7.2" fill="#FFFDF6"/></svg>'
+   +'<svg class="walk" viewBox="26 2 48 96"><g class="bob"><g class="arm b2"><line class="lm back" x1="50" y1="30" x2="50" y2="52" stroke-width="6.6"/></g>'
+   +'<g class="leg b2"><line class="lm back" x1="50" y1="56" x2="50" y2="74" stroke-width="7.6"/><g class="shin b2"><line class="lm back" x1="50" y1="74" x2="50" y2="92" stroke-width="7.6"/></g></g>'
+   +'<rect x="43.5" y="24.5" width="13" height="34" rx="6.5" fill="#FFFDF6"/><circle cx="50.5" cy="13.5" r="7" fill="#FFFDF6"/>'
+   +'<g class="leg"><line class="lm" x1="50" y1="56" x2="50" y2="74" stroke-width="7.6"/><g class="shin"><line class="lm" x1="50" y1="74" x2="50" y2="92" stroke-width="7.6"/></g></g>'
+   +'<g class="arm"><line class="lm" x1="50" y1="30" x2="50" y2="52" stroke-width="6.6"/></g></g></svg>';
+  plane.appendChild(person);
+}
+/* 月相：一天一格，月亮做成浮在格子上的小球 */
+var moonKey=null, MOONS=[];
+function buildMoon(s){
+  var l=s.lunar, key=l.start+'-'+l.day;
+  if(key===moonKey)return; moonKey=key;
+  var R=RINGS[2], N=l.len, h='', i;
+  for(i=0;i<N;i++){
+    var ph=PHASES[phaseOf(elong(noonOf(l.start+i)))];
+    h+=seg(R,360*i/N,360*(i+1)/N,NIGHT,i,' data-tip="'+esc('月相：农历'+lunarMonthName(l)+lunarDayName(i+1)+'，'+ph)+'"');
+  }
+  h+=gaps(R,range(N,360/N,0));
+  layers.m.innerHTML=h;
+  MOONS.forEach(function(M){M.el.remove();}); LABELS=LABELS.filter(function(L){return L.k!=='m';}); MOONS=[];
+  for(i=0;i<N;i++){
+    var e=elong(noonOf(l.start+i)), today=(i===l.day-1);
+    var L=addLabel('m',i,177,360*(i+.5)/N,
+      '<svg viewBox="-12 -12 24 24"><circle r="10" fill="#3A3A38" stroke="rgba(246,241,226,.28)" stroke-width="1"/>'
+      +'<path d="'+moonPath(0,0,10,e)+'" '+(today?'fill="'+GOLD+'"':'fill="none" stroke="#F6F1E2" stroke-width="1.1"')+'/>'
+      +'<path class="cut" d="" fill="#2B2B2B" fill-opacity=".62"/></svg>','moon'+(today?' today':''));
+    L.cut=L.el.querySelector('.cut'); MOONS.push(L);
+  }
+}
+
+/* ======================= 动静：开合、自转、拨动 ======================= */
+var mode='still', drag=null, rafOn=false, lastT=0, Q=I3.slice(), Qw=[0,0,0], Qclose=null;
+var G={}; var STAGGER=0.22, OPEN_T=1.3, CLOSE_T=1.4;
+RINGS.forEach(function(R,idx){G[R.k]={idx:idx,R:R,inc:0,spin:0,sv:0,w:0,E:I3.slice(),Ew:[0,0,0],at:0,phase:'flat',c:null,M:I3.slice()};});
+var reduce=window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+function ease(u){return u<.5?4*u*u*u:1-Math.pow(-2*u+2,3)/2;}
+function setMode(m){
+  if(m===mode)return; mode=m; store('neijing-mode',m);
+  var b=document.querySelectorAll('[data-mode]');for(var i=0;i<b.length;i++)b[i].setAttribute('aria-pressed',b[i].getAttribute('data-mode')===m);
+  var now=performance.now()/1000, n=RINGS.length;
+  RINGS.forEach(function(R,i){var g=G[R.k];
+    if(m==='move'){g.at=now+i*STAGGER; g.phase='opening'; g.inc0=g.inc;}
+    else{g.at=now+(n-1-i)*STAGGER; g.phase='closing'; g.c=null;}
+  });
+  if(m==='move'){plane.style.transformStyle='preserve-3d'; orrery.classList.add('moving'); Qclose=null;}
+  else{orrery.classList.remove('moving'); var aa=axisAngle(Q); Qclose={t0:now,dur:(n-1)*STAGGER+CLOSE_T,aa:aa};}
+  hint();
+  kick();
+}
+function hint(){$('dragHint').textContent=mode==='move'?'拖动某一圈改变它的轨道，拖动空白处转动整个球体':'点一格看它的原文；点空白处取消';}
+function kick(){if(!rafOn){rafOn=true;lastT=performance.now();requestAnimationFrame(tick);}}
+function applyAngular(Mtx,w,dt){var a=Math.hypot(w[0],w[1],w[2]);if(a<.5)return Mtx;return mm(rot(w[0],w[1],w[2],a*dt),Mtx);}
+function tick(t){
+  var dt=Math.min(.05,(t-lastT)/1000), now=t/1000, active=false, allFlat=true; lastT=t;
+  /* 整个球体的转动：惯性，以及“静”时回正 */
+  if(Qclose){var u=Math.min(1,(now-Qclose.t0)/Qclose.dur);Q=Qclose.aa.a?rot(Qclose.aa.x,Qclose.aa.y,Qclose.aa.z,Qclose.aa.a*(1-ease(u))):I3.slice();Qw=[0,0,0];if(u>=1){Qclose=null;Q=I3.slice();}else active=true;}
+  else if(!(drag&&drag.whole)){var qa=Math.hypot(Qw[0],Qw[1],Qw[2]);if(qa>.5){Q=applyAngular(Q,Qw,dt);var k1=Math.exp(-dt*2.2);Qw=Qw.map(function(v){return v*k1;});active=true;}else Qw=[0,0,0];}
+  RINGS.forEach(function(R){
+    var g=G[R.k], k=R.k;
+    if(g.phase==='opening'){
+      if(now>=g.at){var u=Math.min(1,(now-g.at)/OPEN_T);g.inc=g.inc0+(R.inc-g.inc0)*ease(u);if(u>=1)g.phase='open';}
+      g.w+=((now>=g.at?R.speed:0)-g.w)*(1-Math.exp(-dt*1.8)); g.spin+=g.w*dt; active=true;
+    }else if(g.phase==='open'){
+      g.w+=(R.speed-g.w)*(1-Math.exp(-dt*1.8)); g.spin+=g.w*dt; active=true;
+      if(!(drag&&drag.k===k)){var ea=Math.hypot(g.Ew[0],g.Ew[1],g.Ew[2]);if(ea>.5){var Rw=mm(tr(Q),mm(rot(g.Ew[0],g.Ew[1],g.Ew[2],ea*dt),Q));g.E=mm(Rw,g.E);var k2=Math.exp(-dt*2.2);g.Ew=g.Ew.map(function(v){return v*k2;});}else g.Ew=[0,0,0];}
+    }else if(g.phase==='closing'){
+      if(now<g.at){g.spin+=g.w*dt; active=true;}
+      else{
+        if(!g.c){var e0=axisAngle(g.E);g.c={t0:now,inc0:g.inc,s0:g.spin,w0:g.w,goal:Math.round(g.spin/360)*360,e0:e0};g.Ew=[0,0,0];}
+        var u2=Math.min(1,(now-g.c.t0)/CLOSE_T), uu=u2*u2, u3=uu*u2, T=CLOSE_T;
+        g.inc=g.c.inc0*(1-ease(u2));
+        g.spin=(2*u3-3*uu+1)*g.c.s0+(u3-2*uu+u2)*T*g.c.w0+(-2*u3+3*uu)*g.c.goal;
+        g.w=((6*uu-6*u2)*g.c.s0+(3*uu-4*u2+1)*T*g.c.w0+(-6*uu+6*u2)*g.c.goal)/T;
+        g.E=g.c.e0.a?rot(g.c.e0.x,g.c.e0.y,g.c.e0.z,g.c.e0.a*(1-ease(u2))):I3.slice();
+        if(u2>=1){g.phase='flat';g.inc=0;g.spin=0;g.w=0;g.E=I3.slice();g.c=null;} else active=true;
+      }
+    }else{ /* flat：只有手拨的平面转动，松手后弹回原位 */
+      if(!(drag&&drag.k===k)){
+        g.sv*=Math.exp(-dt*2.2); if(Math.abs(g.sv)<1)g.sv=0; g.spin+=g.sv*dt;
+        var st=Math.round(g.spin/360)*360; if(Math.abs(g.sv)<60)g.spin+=(st-g.spin)*(1-Math.exp(-dt*6));
+        if(Math.abs(g.spin-st)<.05&&!g.sv)g.spin=0; else active=true;
+      }else active=true;
+    }
+    var tilt=g.inc?rot(cosd(R.node),sind(R.node),0,g.inc):I3;
+    g.M=mm(Q,mm(g.E,mm(tilt,rotZ(g.spin))));
+    if(!isI(g.M))allFlat=false;
+    layers[k].style.transform=isI(g.M)?'':css(g.M);
+  });
+  if(mode==='still'&&allFlat&&!Qclose)plane.style.transformStyle='flat';
+  Object.keys(MARKERS).forEach(function(k){var L=MARKERS[k],d=L.target-L.ang;if(Math.abs(d)>.05){L.ang+=d*(1-Math.exp(-dt*3.2));active=true;}else L.ang=L.target;L.x=L.r*sind(L.ang);L.y=-L.r*cosd(L.ang);});
+  placeLabels();
+  if(active)requestAnimationFrame(tick); else rafOn=false;
+}
+/* 把圈上的字投影到屏幕上，始终正着 */
+var unit=1, P=1700;
+function measure(){var w=orrery.getBoundingClientRect().width||1; unit=w/760; orrery.style.setProperty('--u',unit.toFixed(4));}
+function placeLabels(){
+  var half=380*unit, byRing={};
+  RINGS.forEach(function(R){byRing[R.k]=G[R.k].M;});
+  for(var j=0;j<LABELS.length;j++){
+    var L=LABELS[j], M=byRing[L.k], x=L.x*unit, y=L.y*unit;
+    var vx=M[0]*x+M[1]*y, vy=M[3]*x+M[4]*y, vz=M[6]*x+M[7]*y, s=P/(P-vz);
+    L.el.style.transform='translate('+(half+vx*s).toFixed(1)+'px,'+(half+vy*s).toFixed(1)+'px) translate(-50%,-50%) scale('+s.toFixed(3)+')';
+    L.el.style.zIndex=Math.round(1000+vz);
+    L.el.style.filter=vz<-4?'opacity(.55)':'';
+  }
+  /* 月亮小球被黑色圈面切开：圈面后面那一半变暗 */
+  var Mm=G.m.M, nx=Mm[2], ny=Mm[5], nz=Mm[8];
+  if(nz<0){nx=-nx;ny=-ny;nz=-nz;}
+  var nxy=Math.hypot(nx,ny), d='';
+  if(nxy>.03){
+    var ux=nx/nxy, uy=ny/nxy, ex=-uy, ey=ux, Rr=10, rotDeg=Math.atan2(ey,ex)/D2R;
+    d='M'+f(Rr*ex)+' '+f(Rr*ey)+'A'+Rr+' '+f(Math.max(.01,Rr*nz))+' '+f(rotDeg)+' 0 1 '+f(-Rr*ex)+' '+f(-Rr*ey)+'A'+Rr+' '+Rr+' 0 0 0 '+f(Rr*ex)+' '+f(Rr*ey)+'Z';
+  }
+  for(var m=0;m<MOONS.length;m++)MOONS[m].cut.setAttribute('d',d);
+}
+
+/* ======================= 显示 ======================= */
+var $=function(id){return document.getElementById(id);};
+var viewMs=null, sel=null, calView='month', calY, calM, holidays={};
+function turn(prev,target){prev=prev||0;var d=norm(target-norm(prev));if(d>180)d-=360;return prev+d;}
+function current(){return stateAt(viewMs===null?Date.now():viewMs);}
+function isToday(){return viewMs===null;}
+
+function renderOrrery(s){
+  buildMoon(s);
+  var A={sc:s.hours*15,q:s.hours*15,t:s.ya,mo:s.ya,s:s.ya};
+  Object.keys(A).forEach(function(k){var L=MARKERS[k];L.target=turn(L.ang,A[k]);});
+  var day=s.hours>=6&&s.hours<18;
+  MARKERS.q.el.innerHTML=day
+    ? '<svg viewBox="-13 -13 26 26">'+range(8,45,0).map(function(a){return '<line x1="'+f(9.5*sind(a))+'" y1="'+f(-9.5*cosd(a))+'" x2="'+f(12.5*sind(a))+'" y2="'+f(-12.5*cosd(a))+'" stroke="'+GOLD+'" stroke-width="2" stroke-linecap="round"/>';}).join('')+'<circle r="6.5" fill="'+GOLD+'" stroke="#fff" stroke-width="1.5"/></svg>'
+    : '<svg viewBox="-13 -13 26 26"><path d="M3 -8.5a8.5 8.5 0 1 0 6.5 13.5a7 7 0 1 1-6.5-13.5z" fill="'+GOLD+'" stroke="#fff" stroke-width="1.2"/></svg>';
+  kick();
+  orrery.classList.toggle('notime',!isToday());
+  /* 选中的一格 */
+  orrery.classList.toggle('has-sel',!!sel);
+  var segs=orrery.querySelectorAll('.seg');
+  for(var i=0;i<segs.length;i++)segs[i].classList.toggle('on',!!sel&&segs[i].getAttribute('data-k')===sel.k&&+segs[i].getAttribute('data-i')===sel.i);
+  for(var j=0;j<LABELS.length;j++){var L=LABELS[j];L.el.classList.toggle('on',!!sel&&L.k===sel.k&&L.i===sel.i);}
+  placeLabels();
+}
+function nowIndex(k,s){return {sc:s.sc,q:s.q,m:s.lunar.day-1,t:s.i,mo:s.month,s:s.season}[k];}
+function legendRows(s){
+  var l=s.lunar, today=isToday(), termExt=s.dayN===1?'今日'+hm(new Date(s.start))+'交节':'第'+cn(s.dayN)+'日';
+  var ly=l.year, jk=(3+2*s.month)%24, jd=((jk-s.i+36)%24)-12, jst=termInstant(jk,s.start+jd*15.2184*DAY), jen=termInstant((jk+2)%24,jst+30.44*DAY);
+  var rows=[
+    {k:'sc',name:'时辰',val:today?BRANCH[s.sc]+'时':'—',ext:today?hm(s.date):'看今日时显示',off:!today},
+    {k:'q', name:'四时',val:today?QUARTERS[s.q].name:'—',ext:today?QUARTERS[s.q].yy:'看今日时显示',off:!today},
+    {k:'m', name:'月相',val:PHASES[s.phase],extHTML:miniMoon(s.e)},
+    {k:'t', name:'节气',val:TERMS[s.i],ext:termExt},
+    {k:'mo',name:'干支月',val:ganzhiMonth(s.ms,s.month)+'月',ext:md(jst)+'-'+md(jen-DAY)},
+    {k:null,name:'月/日',val:lunarMonthName(l)+lunarDayName(l.day),ext:md(s.ms)},
+    {k:'s', name:'四季',val:SEASONS[s.season].name,ext:SEASONS[s.season].span},
+    {k:null,name:'年',val:gz(ly-4)+'年',ext:'公元'+s.date.getFullYear()+'年·生肖'+ZODIAC[(((ly-4)%12)+12)%12]}
+  ];
+  return rows;
+}
+function renderLegend(s){
+  $('nowTitle').textContent=isToday()?'此刻':'那一日';
+  $('nowSub').textContent=isToday()?'':md(s.ms);
+  $('legend').innerHTML=legendRows(s).map(function(r){
+    var inner='<span class="nm">'+r.name+'</span><span class="val">'+esc(r.val)+'</span><span class="ext">'+(r.extHTML||esc(r.ext))+'</span>';
+    if(!r.k||r.off)return '<li><div class="row'+(r.off?' off':'')+'">'+inner+'</div></li>';
+    return '<li><button type="button" class="row" data-scale="'+r.k+'" aria-pressed="'+(!!sel&&sel.k===r.k&&sel.i===nowIndex(r.k,s))+'">'+inner+'</button></li>';
+  }).join('');
+}
+function renderTermCol(s){
+  var nxt=TERMS[(s.i+1)%24], until=dayOf(s.next)-s.dn, st=new Date(s.start);
+  $('termName').textContent=TERMS[s.i];
+  $('termMeta').innerHTML=s.dayN===1
+    ? '<span><b>今日交节</b></span><br><span>'+cn(st.getHours())+'时'+cn(st.getMinutes())+'分</span>'
+    : '<span>第'+cn(s.dayN)+'日</span><br><span>'+(until<=1?'明日'+nxt:cn(until)+'日后'+nxt)+'</span>';
+}
+
+/* 右侧：选中某一格就讲这一格；没选就讲所选日期的节气 */
+function insightFor(k,i,s){
+  if(k==='t'){var e=TERM_TEXT[TERMS[i]];return {scale:'节气',val:TERMS[i],v:e.q.t,src:e.q.s,p:e.p,tip:TERM_TIPS[i],tipSrc:'后世节气养生的通行说法，不是《素问》原文。',
+    note:'每个节气配的是它所在季节的原文，《素问》没有逐个讲二十四节气。'};}
+  if(k==='s'){var se=SEASONS[i];return {scale:'四季',val:se.name,v:se.hl,src:'四气调神大论',p:se.p,full:se.t,hl:se.hl,tip:se.tip,tipSrc:'据原文。'};}
+  if(k==='mo'){var mp=MONTH_PAIRS[Math.floor(i/2)];return {scale:'干支月',val:BRANCH[(2+i)%12]+'月（'+ganzhiMonth(s.ms,i)+'月）',v:mp.hl,src:'诊要经终论',p:mp.p,full:MONTH_TEXT,hl:mp.hl,tip:mp.tip,tipSrc:'据原文“人气在某处”引申。',
+    note:'《素问》按正月、二月记月。干支月以节为界，寅月就是正月，'+BRANCH[(2+i)%12]+'月就是'+MONTH_NAMES[i]+'。'};}
+  if(k==='m'){var l=s.lunar, e2=elong(noonOf(l.start+i)), mo=MOON[moonState(e2)];
+    return {scale:'月相',val:'农历'+lunarMonthName(l)+lunarDayName(i+1)+'　'+PHASES[phaseOf(e2)],v:mo.hl,src:'八正神明论',p:mo.p,full:MOON_TEXT,hl:mo.hl,tip:mo.tip,tipSrc:'据原文引申。原文讲的是针刺要看月相，这里转成日常起居的说法。',note:mo.note||''};}
+  if(k==='q'){var qq=QUARTERS[i];return {scale:'四时',val:qq.name,v:qq.hl,src:'金匮真言论',p:qq.p,full:QUARTER_TEXT,hl:qq.hl,tip:qq.tip,tipSrc:qq.src+'。'};}
+  var h=(2*i)%24; if(h<3)h+=24;
+  var part=DAY_ARC.parts.filter(function(x){return h>=x.from&&h<x.to;})[0], tp=SHICHEN_TIPS[i];
+  return {scale:'时辰',val:BRANCH[i]+'时（'+pad((2*i+23)%24)+':00-'+pad((2*i+1)%24)+':00）',v:part.hl,src:DAY_ARC.s,p:part.p,full:DAY_ARC.t,hl:part.hl,more:SHICHEN_MORE[i],
+    tip:tp[0]+'当令。'+tp[1],tipSrc:'后世“子午流注”的说法（金元以后医家整理），不是《素问》原文。',
+    note:'《素问》讲一天，用的是平旦、日中、日西、夜半这些说法，没有用子丑寅卯的十二时辰。'};
+}
+function renderQuote(s){
+  var x=sel?insightFor(sel.k,sel.i,s):insightFor('t',s.i,s);
+  $('qScale').textContent=x.scale; $('qVal').textContent=x.val;
+  $('qV').innerHTML='<p>'+esc(x.v)+'</p><cite>《素问·'+esc(x.src)+'》</cite>';
+  $('qPlain').textContent=x.p;
+  $('qMore').innerHTML=x.more?'另见：'+esc(x.more.t)+'<cite>《素问·'+esc(x.more.s)+'》</cite>':'';
+  if(x.full){var j=x.full.indexOf(x.hl);$('qFull').innerHTML='原文全段：'+esc(x.full.slice(0,j))+'<mark>'+esc(x.hl)+'</mark>'+esc(x.full.slice(j+x.hl.length));}else $('qFull').innerHTML='';
+  $('qTip').innerHTML='<b>养生</b>'+esc(x.tip)+'<small>'+esc(x.tipSrc)+'仅供日常参考，不是医疗建议。</small>';
+  $('qNote').textContent=x.note||'';
+  var qv=$('qV'); qv.scrollLeft=qv.scrollWidth;
+}
+function renderClock(){
+  var n=new Date(), dn=dayOf(n.getTime()), hh=n.getHours()+n.getMinutes()/60, m=Math.floor(norm(sunLon(n.getTime())-270-45)/30)%12;
+  $('clockTime').textContent=hm(n);
+  $('clockDate').textContent=n.getFullYear()+'年'+(n.getMonth()+1)+'月'+n.getDate()+'日(星期'+WEEK[n.getDay()]+')';
+  $('clockGz').textContent=gz(jieYear(n.getTime())-4)+'年/'+ganzhiMonth(n.getTime(),m)+'月/'+ganzhiDay(dn)+'日/'+BRANCH[Math.floor(((hh+1)%24)/2)]+'时';
+}
+
+/* 日期栏 + 日期带 */
+var stripKey=null;
+function miniMoon(e){return '<svg viewBox="-7 -7 14 14"><circle r="6" fill="#2B2B2B"/><path d="'+moonPath(0,0,6,e)+'" fill="#F6F1E2"/></svg>';}
+function renderDateBar(s){
+  $('backNow').classList.toggle('is-today',isToday());
+  var todayDn=dayOf(Date.now()), key=s.dn+'|'+todayDn+'|'+Object.keys(holidays).join(',');
+  if(key===stripKey)return; stripKey=key;
+  var h='';
+  for(var dn=s.dn-14;dn<=s.dn+14;dn++){
+    var dt=dateOfDay(dn), ll=lunarOf(dn), tm=termOn(dn), hol=holidayFor(dn);
+    var sub=tm||(ll.day===1?lunarMonthName(ll):lunarDayName(ll.day));
+    h+='<button type="button" class="sd'+(dn===s.dn?' sel':'')+(dn===todayDn?' today':'')+'" data-dn="'+dn+'" aria-label="'+(dt.m+1)+'月'+dt.d+'日 '+sub+'">'
+      +'<span class="w">'+(dt.d===1?(dt.m+1)+'月':'周'+WEEK[dt.w])+'</span><span class="n">'+dt.d+'</span><span class="sub'+(tm?' term':'')+'">'+esc(sub)+'</span>'
+      +miniMoon(elong(noonOf(dn)))+(hol?'<i class="tag '+(hol[2]?'off':'work')+'">'+(hol[2]?'休':'班')+'</i>':'')+'</button>';
+  }
+  var strip=$('strip'); strip.innerHTML=h;
+  var cur=strip.querySelector('.sd.sel'); if(cur){strip.style.scrollBehavior='auto';strip.scrollLeft=cur.offsetLeft-(strip.clientWidth-cur.offsetWidth)/2;strip.style.scrollBehavior='';}
+}
+
+/* ---------- 日历 ---------- */
+var termCache={};
+function termsByDay(y){var map={},t=termInstant(1,Date.UTC(y,0,5));for(var n=0;n<24;n++){var k=(1+n)%24;if(n)t=termInstant(k,t+15.2184*DAY);map[dayOf(t)]=TERMS[k];}return map;}
+function termOn(dn){var y=dateOfDay(dn).y;if(!termCache[y])termCache[y]=termsByDay(y);return termCache[y][dn];}
+function holidayFor(dn){var dt=dateOfDay(dn),list=holidays[dt.y];if(!list)return null;var key=pad(dt.m+1)+'-'+pad(dt.d);for(var i=0;i<list.length;i++)if(list[i][0]===key)return list[i];return null;}
+function fillPickers(){var h='';for(var y=1950;y<=2100;y++)h+='<option value="'+y+'">'+cnYear(y)+'年</option>';$('pickY').innerHTML=h;h='';for(var m=0;m<12;m++)h+='<option value="'+m+'">'+cn(m+1)+'月</option>';$('pickM').innerHTML=h;}
+function renderCalendar(){
+  $('pickY').value=calY; $('pickM').value=calM; $('pickM').hidden=(calView==='year');
+  var b=document.querySelectorAll('[data-view]');for(var i=0;i<b.length;i++)b[i].setAttribute('aria-pressed',b[i].getAttribute('data-view')===calView);
+  if(calView==='year')renderYear(); else renderMonth();
+  renderHolidayStatus();
+}
+function renderMonth(){
+  var selDn=current().dn, todayDn=dayOf(Date.now()), first=civDay(calY,calM,1), start=first-((dateOfDay(first).w+6)%7);
+  var h='<div class="grid" role="grid">'+['一','二','三','四','五','六','日'].map(function(x){return '<div class="wd">'+x+'</div>';}).join('');
+  for(var i=0;i<42;i++){
+    var dn=start+i, dt=dateOfDay(dn), out=dt.m!==calM, l=lunarOf(dn), tm=termOn(dn), hol=holidayFor(dn), prev=holidayFor(dn-1), sub, sc='';
+    if(tm){sub=tm;sc='term';} else if(hol&&hol[2]===1&&!(prev&&prev[1]===hol[1]&&prev[2]===1)){sub=hol[1];sc='fest';} else sub=l.day===1?lunarMonthName(l):lunarDayName(l.day);
+    var cls='day'+(out?' out':'')+(dn===todayDn?' today':'')+(dn===selDn?' sel':'')+((dt.w===0||dt.w===6)?' weekend':'');
+    h+='<button type="button" class="'+cls+'" data-dn="'+dn+'" aria-label="'+(dt.m+1)+'月'+dt.d+'日 '+sub+(hol?(hol[2]?' 放假':' 补班'):'')+'"><span class="n">'+dt.d+'</span><span class="sub '+sc+'">'+esc(sub)+'</span>'
+      +(hol?'<i class="tag '+(hol[2]?'off':'work')+'">'+(hol[2]?'休':'班')+'</i>':'')+'</button>';
+  }
+  $('calBody').innerHTML=h+'</div>';
+}
+function renderYear(){
+  var selDn=current().dn, todayDn=dayOf(Date.now()), h='<div class="years">';
+  for(var m=0;m<12;m++){
+    var first=civDay(calY,m,1), lead=(dateOfDay(first).w+6)%7, days=Math.round((Date.UTC(calY,m+1,1)-Date.UTC(calY,m,1))/DAY);
+    h+='<div class="mini"><button type="button" class="mini-t" data-m="'+m+'">'+cn(m+1)+'月</button><div class="grid">'+['一','二','三','四','五','六','日'].map(function(x){return '<div class="wd">'+x+'</div>';}).join('');
+    for(var b=0;b<lead;b++)h+='<span class="md blank"></span>';
+    for(var d=1;d<=days;d++){var dn=first+d-1, tm=termOn(dn), hol=holidayFor(dn);
+      h+='<button type="button" class="md'+(tm?' term':'')+(hol?(hol[2]?' off':' work'):'')+(dn===todayDn?' today':'')+(dn===selDn?' sel':'')+'" data-dn="'+dn+'" title="'+(m+1)+'月'+d+'日'+(tm?' '+tm:'')+(hol?' '+hol[1]+(hol[2]?'放假':'补班'):'')+'">'+d+'</button>';}
+    h+='</div></div>';
+  }
+  $('calBody').innerHTML=h+'</div>';
+}
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);localStorage.setItem(k,v);}catch(e){return null;}}
+var holState={};
+function loadHolidayCache(){Object.keys(HOLIDAYS_BUILTIN).forEach(function(y){holidays[y]=HOLIDAYS_BUILTIN[y];});for(var y=calY-1;y<=calY+1;y++){var c=store('neijing-holiday-'+y);if(c){try{var o=JSON.parse(c);if(o.days&&o.days.length)holidays[y]=o.days;}catch(e){}}}}
+function renderHolidayStatus(){
+  var y=calY, st=holState[y], txt;
+  if(holidays[y]&&holidays[y].length)txt=cnYear(y)+'年放假安排已载入。';
+  else if(st==='loading')txt='正在获取'+cnYear(y)+'年放假安排……';
+  else if(st==='empty')txt=cnYear(y)+'年放假安排还没公布，通常在上一年年底公布。';
+  else if(st==='fail')txt='没连上网，放假安排先不显示，其他内容不受影响。';
+  else txt=cnYear(y)+'年放假安排还没有获取。';
+  $('holStatus').textContent=txt;
+}
+function fetchHolidays(y,force){
+  if(!force&&holidays[y]&&holidays[y].length)return;
+  if(!window.fetch||holState[y]==='loading')return;
+  var cached=store('neijing-holiday-'+y);
+  if(!force&&cached){try{var o=JSON.parse(cached);if(Date.now()-o.at<7*DAY){holState[y]=o.days.length?'ok':'empty';return;}}catch(e){}}
+  holState[y]='loading'; renderHolidayStatus();
+  var urls=HOLIDAY_URLS.map(function(u){return u.replace('{y}',y);});
+  (function tryNext(i){
+    if(i>=urls.length){holState[y]='fail';if(y===calY)renderHolidayStatus();return;}
+    fetch(urls[i],{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.json();}).then(function(j){
+      var days=(j.days||[]).filter(function(x){return String(x.date).slice(0,4)===String(y);}).map(function(x){return [x.date.slice(5),x.name,x.isOffDay?1:0];});
+      store('neijing-holiday-'+y,JSON.stringify({at:Date.now(),days:days}));
+      if(days.length){holidays[y]=days;holState[y]='ok';}else holState[y]='empty';
+      if(y===calY)render();
+    }).catch(function(){tryNext(i+1);});
+  })(0);
+}
+
+/* ---------- 总刷新 ---------- */
+function render(){var s=current();renderClock();renderDateBar(s);renderOrrery(s);renderLegend(s);renderTermCol(s);renderQuote(s);renderCalendar();}
+function setView(ms){
+  viewMs=ms; sel=null;
+  var d=new Date(ms===null?Date.now():ms); calY=d.getFullYear(); calM=d.getMonth();
+  loadHolidayCache(); render(); fetchHolidays(calY);
+}
+function select(k,i){sel=(sel&&sel.k===k&&sel.i===i)?null:{k:k,i:i};render();}
+function clearSel(){if(sel){sel=null;render();}}
+
+/* ---------- 悬停提示 ---------- */
+var tip=$('tip'), tipTimer=null;
+function tipText(k,i){
+  var s=current();
+  if(k==='sc')return BRANCH[i]+'时：'+pad((2*i+23)%24)+':00-'+pad((2*i+1)%24)+':00';
+  if(k==='q')return QUARTERS[i].name+'：'+QUARTERS[i].yy;
+  if(k==='t')return '节气：'+TERMS[i]+'（'+termRange(i,s)+'）';
+  if(k==='mo')return BRANCH[(2+i)%12]+'月（'+ganzhiMonth(s.ms,i)+'月）';
+  return '';
+}
+function showTip(el,x,y){var t=el.getAttribute('data-tip')||tipText(el.getAttribute('data-k'),+el.getAttribute('data-i'));if(!t){hideTip();return;}tip.textContent=t;tip.style.left=x+'px';tip.style.top=y+'px';tip.classList.add('show');}
+function hideTip(){tip.classList.remove('show');}
+
+/* ---------- 拖动与点击 ---------- */
+function angleAt(e){var r=orrery.getBoundingClientRect();return Math.atan2(e.clientX-(r.left+r.width/2),-(e.clientY-(r.top+r.height/2)))/D2R;}
+orrery.addEventListener('pointerdown',function(e){
+  var sg=e.target.closest('.seg');
+  if(!sg&&mode!=='move')return;
+  drag={k:sg?sg.getAttribute('data-k'):null,whole:!sg,seg:sg,x0:e.clientX,y0:e.clientY,lx:e.clientX,ly:e.clientY,la:angleAt(e),lt:performance.now(),moved:false,type:e.pointerType};
+  try{orrery.setPointerCapture(e.pointerId);}catch(_){}
+  kick();
+});
+orrery.addEventListener('pointermove',function(e){
+  if(!drag){var sg=e.target.closest('.seg');if(e.pointerType==='mouse'){if(sg)showTip(sg,e.clientX,e.clientY);else hideTip();}return;}
+  if(!drag.moved&&Math.hypot(e.clientX-drag.x0,e.clientY-drag.y0)>5){drag.moved=true;orrery.classList.add('dragging');hideTip();}
+  if(!drag.moved)return;
+  var now=performance.now(), dt=Math.max(.008,(now-drag.lt)/1000), dx=e.clientX-drag.lx, dy=e.clientY-drag.ly;
+  if(mode==='move'){
+    var ang=Math.hypot(dx,dy)*.45, ax=[-dy,dx,0];
+    if(ang>0){
+      var Rd=rot(ax[0],ax[1],ax[2],ang), L=Math.hypot(ax[0],ax[1])||1, wv=[ax[0]/L*ang/dt,ax[1]/L*ang/dt,0];
+      if(drag.whole){Q=mm(Rd,Q);Qw=Qw.map(function(v,i){return v*.5+wv[i]*.5;});}
+      else{var g=G[drag.k];g.E=mm(mm(tr(Q),mm(Rd,Q)),g.E);g.Ew=g.Ew.map(function(v,i){return v*.5+wv[i]*.5;});}
+    }
+  }else{
+    var g2=G[drag.k], a=angleAt(e), d=a-drag.la; if(d>180)d-=360; if(d<-180)d+=360; drag.la=a;
+    g2.spin+=d; g2.sv=g2.sv*.5+(d/dt)*.5;
+  }
+  drag.lx=e.clientX; drag.ly=e.clientY; drag.lt=now;
+});
+var justPicked=false;
+function endDrag(e){
+  if(!drag)return;
+  var d=drag; drag=null; orrery.classList.remove('dragging');
+  justPicked=true; setTimeout(function(){justPicked=false;},0);
+  if(!d.moved){
+    if(d.seg){select(d.seg.getAttribute('data-k'),+d.seg.getAttribute('data-i'));
+      if(d.type!=='mouse'){showTip(d.seg,e.clientX,e.clientY);clearTimeout(tipTimer);tipTimer=setTimeout(hideTip,2600);}}
+    else clearSel();
+  }else if(Math.abs(performance.now()-d.lt)>120){Qw=[0,0,0];if(d.k)G[d.k].Ew=[0,0,0];}
+  kick();
+}
+orrery.addEventListener('pointerup',endDrag);
+orrery.addEventListener('pointercancel',function(){if(drag){drag=null;orrery.classList.remove('dragging');kick();}});
+orrery.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse')hideTip();});
+document.querySelectorAll('[data-mode]').forEach(function(b){b.addEventListener('click',function(){setMode(b.getAttribute('data-mode'));});});
+/* 点页面空白处取消选中 */
+document.addEventListener('click',function(e){
+  if(!sel||justPicked)return;
+  if(e.target.closest('.seg,button,select,a,summary,details,.cal,.legend,.quote-col,.tip,.strip'))return;
+  clearSel();
+});
+
+/* ---------- 其他交互 ---------- */
+$('legend').addEventListener('click',function(e){var b=e.target.closest('button.row');if(b){var k=b.getAttribute('data-scale');select(k,nowIndex(k,current()));}});
+function pickDay(dn){var c=new Date(),dt=dateOfDay(dn),ms=new Date(dt.y,dt.m,dt.d,c.getHours(),c.getMinutes()).getTime();if(dn===dayOf(Date.now()))ms=null;setView(ms);}
+$('strip').addEventListener('click',function(e){var b=e.target.closest('[data-dn]');if(b)pickDay(+b.getAttribute('data-dn'));});
+$('calBody').addEventListener('click',function(e){
+  var t=e.target.closest('[data-m]'); if(t){calM=+t.getAttribute('data-m');calView='month';renderCalendar();return;}
+  var b=e.target.closest('[data-dn]'); if(!b)return; if(calView==='year')calView='month'; pickDay(+b.getAttribute('data-dn'));
+});
+document.querySelectorAll('[data-view]').forEach(function(b){b.addEventListener('click',function(){calView=b.getAttribute('data-view');renderCalendar();});});
+function shift(n){if(calView==='year')calY+=n;else{calM+=n;if(calM<0){calM=11;calY--;}if(calM>11){calM=0;calY++;}}loadHolidayCache();renderCalendar();fetchHolidays(calY);}
+$('prev').addEventListener('click',function(){shift(-1);});
+$('next').addEventListener('click',function(){shift(1);});
+$('pickY').addEventListener('change',function(){calY=+this.value;loadHolidayCache();renderCalendar();fetchHolidays(calY);});
+$('pickM').addEventListener('change',function(){calM=+this.value;renderCalendar();});
+$('calToday').addEventListener('click',function(){calView='month';setView(null);});
+$('backNow').addEventListener('click',function(){setView(null);});
+$('dayPrev').addEventListener('click',function(){pickDay(current().dn-1);});
+$('dayNext').addEventListener('click',function(){pickDay(current().dn+1);});
+$('holFetch').addEventListener('click',function(){fetchHolidays(calY,true);});
+window.addEventListener('resize',function(){measure();placeLabels();});
+
+/* ---------- 节气导出到系统日历 ---------- */
+function icsEsc(s){return s.replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;');}
+function icsFold(line){var out='',b=0;for(var k=0;k<line.length;k++){var c=line.charCodeAt(k),n=c<0x80?1:c<0x800?2:3;if(b+n>70){out+='\r\n ';b=1;}out+=line[k];b+=n;}return out;}
+function ymdUTC(d){return d.getUTCFullYear()+pad(d.getUTCMonth()+1)+pad(d.getUTCDate());}
+$('ics').addEventListener('click',function(){
+  var s=stateAt(Date.now()), t=s.start, stamp=new Date().toISOString().replace(/[-:]/g,'').replace(/\.\d+/,'');
+  var L=['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//neijing-shijian//v5//ZH','CALSCALE:GREGORIAN','X-WR-CALNAME:内经时间'];
+  for(var n=1;n<=24;n++){
+    var k=(s.i+n)%24; t=termInstant(k,t+15.2184*DAY);
+    var bj=new Date(t+BJ), end=new Date(bj.getTime()+DAY), e=TERM_TEXT[TERMS[k]];
+    var desc=e.q.t+'\n《黄帝内经·素问·'+e.q.s+'》\n\n'+e.p+'\n\n养生：'+TERM_TIPS[k];
+    L.push('BEGIN:VEVENT','UID:'+ymdUTC(bj)+'-'+k+'@neijing-shijian','DTSTAMP:'+stamp,'DTSTART;VALUE=DATE:'+ymdUTC(bj),'DTEND;VALUE=DATE:'+ymdUTC(end),
+      'SUMMARY:'+icsEsc(TERMS[k]),'DESCRIPTION:'+icsEsc(desc),'TRANSP:TRANSPARENT','BEGIN:VALARM','ACTION:DISPLAY','DESCRIPTION:'+icsEsc(TERMS[k]+'　'+e.q.t),'TRIGGER:PT9H','END:VALARM','END:VEVENT');
+  }
+  L.push('END:VCALENDAR');
+  var url=URL.createObjectURL(new Blob([L.map(icsFold).join('\r\n')+'\r\n'],{type:'text/calendar;charset=utf-8'}));
+  var a=document.createElement('a');a.href=url;a.download='内经时间-节气.ics';document.body.appendChild(a);a.click();a.remove();
+  setTimeout(function(){URL.revokeObjectURL(url);},2000);
+});
+
+/* ---------- 启动 ---------- */
+buildStatic(); fillPickers(); measure();
+(function(){var n=new Date();calY=n.getFullYear();calM=n.getMonth();})();
+loadHolidayCache(); renderClock();
+if(reduce)render(); else requestAnimationFrame(function(){requestAnimationFrame(render);});
+fetchHolidays(calY);
+if(store('neijing-mode')==='move'&&!reduce)setTimeout(function(){setMode('move');},700);
+setInterval(function(){if(viewMs===null)render();else renderClock();},30000);
+
+})();
+</script>
+</body>
+</html>
